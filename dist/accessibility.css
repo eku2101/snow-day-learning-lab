@@ -1,4 +1,35 @@
 /* Semantic theme tokens apply to every surface, including dialogs and form fields. */
+.buddy-feature {
+  display:grid;
+  grid-template-columns:180px minmax(0,1fr);
+  gap:28px;
+  align-items:center;
+  padding:28px;
+  margin-bottom:26px;
+  background:var(--purple);
+  border:1px solid var(--line);
+  border-radius:22px;
+}
+.buddy-feature-art {
+  display:grid;
+  place-items:center;
+  min-height:180px;
+  background:var(--card);
+  border-radius:50%;
+  font-size:6rem;
+}
+.buddy-feature h2 { margin:14px 0 0; font-size:1.55rem; }
+.buddy-feature-copy>p { max-width:650px; }
+.buddy-feature-tags { display:flex; flex-wrap:wrap; gap:10px 20px; list-style:none; padding:0; margin:16px 0 22px; }
+.buddy-feature-tags li { font-size:.875rem; margin:0; }
+.buddy-launch { display:inline-flex; align-items:center; gap:20px; min-height:52px; padding:13px 22px; border-radius:12px; background:var(--green); color:var(--bg); font-weight:700; text-decoration:none; }
+.buddy-launch:hover { filter:brightness(.93); }
+.buddy-feature-note { font-size:.8rem; margin-bottom:0; }
+@media(max-width:800px) {
+  .buddy-feature { grid-template-columns:1fr; gap:16px; padding:22px; }
+  .buddy-feature-art { width:92px; min-height:92px; border-radius:22px; font-size:4rem; }
+  .buddy-launch { justify-content:space-between; width:100%; }
+}
 :root {
   --surface-soft: #eef1e9;
   --field: #fff;

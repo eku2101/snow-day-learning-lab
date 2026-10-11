@@ -39,7 +39,7 @@ const tabs = [
   ["dashboard", "◫", "Overview Dashboard"],
   ["curriculum", "▤", "Lesson Plans"],
   ["studio", "⬡", "Maker Studio Workspace"],
-  ["companion", "☀", "Play companion"],
+  ["companion", "♡", "Buddy Studio"],
   ["kits", "⬡", "Toolkit builder"],
   ["community", "♧", "Community exchange"],
   ["research", "⚑", "Research & rules"],
@@ -120,6 +120,21 @@ $("nav").innerHTML = tabs
       `<button data-tab="${id}"><span>${icon}</span>${name}</button>`,
   )
   .join("");
+function buddyFeature() {
+  return `<section class="buddy-feature" aria-labelledby="buddyFeatureTitle">
+    <div class="buddy-feature-art" aria-hidden="true">🧸</div>
+    <div class="buddy-feature-copy">
+      <span class="badge">NEW · FOR LITTLE MAKERS</span>
+      <h2 id="buddyFeatureTitle">Meet the Buddy Studio.</h2>
+      <p>Create a stuffed-animal friend, make coloring pages, and bring your buddy to life in gentle stories about calming your body.</p>
+      <ul class="buddy-feature-tags" aria-label="Buddy Studio activities">
+        <li>♡ Make a buddy</li><li>✎ Color & print</li><li>▷ Calming stories & videos</li>
+      </ul>
+      <a class="buddy-launch" href="#companion">Open Buddy Studio <span aria-hidden="true">→</span></a>
+      <p class="buddy-feature-note">Big buttons. Optional sound. A quiet moment whenever you need one.</p>
+    </div>
+  </section>`;
+}
 function dashboard() {
   const counts = ["flow", "struggle", "frustration", "boredom"].map(
     (s) => people.filter((p) => state(p)[1] === s).length,
@@ -131,6 +146,7 @@ function dashboard() {
       "Notice the process. Make room for the next small discovery.",
       `<button id="simulate" class="primary">${running ? "Ⅱ Pause session" : "▷ Start simulation"}</button>`,
     ) +
+    buddyFeature() +
     `<div class="banner"><div><p class="eyebrow">TODAY IN THE MAKER STUDIO</p><h2>Small moments. Meaningful growth.</h2><p>Your learners are building light-up stories. Look for experimentation, help-seeking, and moments of connection.</p></div><div class="sprout" aria-hidden="true">🌱</div></div><div class="stats">${["In flow", "Exploring a challenge", "May need a check-in", "Ready for a new spark"].map((s, i) => `<div class="stat"><span class="stat-icon">${["↗", "⟳", "♡", "✧"][i]}</span><span class="stat-label">${s}</span><div class="value">${counts[i]} <small style="font-size:0.75rem;font-weight:400">learner${counts[i] === 1 ? "" : "s"}</small></div><small>${["Space to keep creating", "Room for productive struggle", "Offer a gentle invitation", "Invite choice and curiosity"][i]}</small></div>`).join("")}</div><div class="two-col"><section class="card"><div class="section-title"><h3>Learning in the moment</h3><small><span class="dot"></span>${running ? "Simulation live" : "Sample session"}</small></div>${people.map((p) => `<div class="learner"><div class="initial">${p.initial}</div><div><b>${p.name}</b><p>${p.task}</p><div class="telemetry">Latency ${p.seconds}s · ${p.taps} taps/min · Gaze drift ${p.gaze}% · Tone ${p.tone}</div></div><span class="badge ${state(p)[1]}">${state(p)[0]}</span></div>`).join("")}<p style="font-size:0.6875rem">Illustrative hypotheses, not emotion detection. Confirm with the learner; gaze and voice are context only.</p></section><section class="card"><div class="section-title"><h3>Gentle next steps</h3><span>✧</span></div><div class="recommendation"><span class="badge frustration">CHECK IN WITH SAM</span><p>Repeated interactions without a change. Offer a pause, a different material, or a little help.</p><button class="text-button" id="checkin">Record a supportive check-in →</button></div><div class="recommendation" style="background:#eeeaf5"><span class="badge boredom">INVITE RILEY TO CHOOSE</span><p>Try a new story prompt or let the learner lead the next challenge.</p><button class="text-button" id="browse">Explore lesson ideas →</button></div><p style="font-size:0.6875rem">No ranking. No punitive scores. Just invitations to support.</p></section></div><div class="card bottom-card"><div><p class="eyebrow">BUILT ON CURIOSITY, GROUNDED IN RESEARCH</p><h3>See the learning behind the making.</h3><p>Evidence-centered design connects meaningful actions with thoughtful support.</p></div><button id="rulesLink">Explore the research ↗</button></div>`;
   $("#simulate").onclick = () => {
     running = !running;
