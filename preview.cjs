@@ -1,0 +1,2 @@
+const http=require("http"),fs=require("fs"),path=require("path");
+http.createServer((req,res)=>{const filename=path.join(__dirname,"dist",req.url.split("?")[0]==="/"?"index.html":path.basename(req.url.split("?")[0]));fs.readFile(filename,(err,data)=>{res.writeHead(err?404:200,{"Content-Type":filename.endsWith(".js")?"application/javascript":filename.endsWith(".css")?"text/css":"text/html"});res.end(err?"Not found":data)})}).listen(4173,"127.0.0.1",()=>console.log("Local: http://127.0.0.1:4173"));
