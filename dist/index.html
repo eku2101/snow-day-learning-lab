@@ -1,5 +1,82 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SNOW Day · Learning Studio</title><link rel="stylesheet" href="style.css"></head><body>
-<aside><a class="brand" href="#dashboard"><span class="snow">✳</span> SNOW DAY<small>LEARNING LAB</small></a><div class="workspace">◈ &nbsp; Maker Studio <small>Research prototype</small></div><nav aria-label="Main navigation"></nav><div class="aside-bottom"><span class="dot"></span> A little room to grow.<p>Made for every kind of mind.</p></div></aside>
-<div class="shell"><header><span>Studio / <b id="breadcrumb">Overview</b></span><div><span class="demo">◉ &nbsp; Simulated data</span><button id="settingsButton">⚙ Sensory settings</button><span class="avatar">EL</span></div></header><main id="main"></main><footer>SNOW Day Learning Lab <span>Observe with care. Support with curiosity.</span></footer></div>
-<dialog id="settings"><form method="dialog"><button class="close" aria-label="Close">×</button></form><p class="eyebrow">MAKE YOURSELF COMFORTABLE</p><h2>Sensory settings</h2><label>Environment<select id="profile"><option value="calm">Calming / low sensory</option><option value="bright">Playful / more color</option><option value="contrast">High contrast</option></select></label><label><input type="checkbox" id="large"> Larger touch targets</label><label><input type="checkbox" id="motion"> Reduce motion</label><label><input type="checkbox" id="narrate"> Companion narration</label><label>Narration speed <input id="speed" type="range" min="0.5" max="1.5" step="0.1" value="0.8"></label><p>Settings stay on this device. Narration depends on browser speech support.</p></dialog><div id="toast" role="status"></div><script src="app.js"></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SNOW DAY Learning Lab</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="accessibility.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <aside>
+      <a class="brand" href="#dashboard"
+        ><span class="snow">✳</span> SNOW DAY<small>LEARNING LAB</small></a
+      >
+      <div class="workspace">
+        ◈ &nbsp; Maker Studio <small>Research prototype</small>
+      </div>
+      <nav aria-label="Main navigation"></nav>
+      <div class="aside-bottom">
+        <span class="dot"></span> A little room to grow.
+        <p>Made for every kind of mind.</p>
+      </div>
+    </aside>
+    <div class="shell">
+      <header>
+        <span>Studio / <b id="breadcrumb">Overview</b></span>
+        <div>
+          <span class="demo">◉ &nbsp; Simulated data</span
+          ><button id="settingsButton">⚙ Sensory settings</button
+          ><span class="avatar">EL</span>
+        </div>
+      </header>
+      <main id="main" tabindex="-1"></main>
+      <footer>
+        SNOW DAY Learning Lab
+        <span>Observe with care. Support with curiosity.</span>
+      </footer>
+    </div>
+    <dialog id="settings" aria-labelledby="settingsTitle">
+      <form method="dialog">
+        <button class="close" aria-label="Close">×</button>
+      </form>
+      <p class="eyebrow">MAKE YOURSELF COMFORTABLE</p>
+      <h2 id="settingsTitle">Sensory settings</h2>
+      <label
+        >Environment<select id="profile">
+          <option value="light">Default Light</option>
+          <option value="dark">High Contrast Dark</option>
+          <option value="neutral">Low Sensory Neutral</option>
+        </select></label
+      ><label
+        >Text size<select id="fontScale">
+          <option value="100">100% · Standard</option>
+          <option value="115">115% · Larger</option>
+          <option value="130">130% · Largest</option>
+        </select></label
+      >
+      <p id="settingsStatus" role="status">Changes apply immediately.</p>
+      <label><input type="checkbox" id="large" /> Larger touch targets</label
+      ><label><input type="checkbox" id="motion" /> Reduce motion</label
+      ><label><input type="checkbox" id="narrate" /> Companion narration</label
+      ><label
+        >Narration speed
+        <input
+          id="speed"
+          type="range"
+          min="0.5"
+          max="1.5"
+          step="0.1"
+          value="0.8"
+      /></label>
+      <p>
+        Settings stay on this device. Narration depends on browser speech
+        support.
+      </p>
+    </dialog>
+    <div id="toast" role="status"></div>
+    <script src="lesson-plans.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
