@@ -4,38 +4,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>SNOW DAY Learning Lab</title>
+    <meta name="description" content="Inclusive learning through making. Explore SEL, standards-aligned STEM lessons, and thoughtful supports for classrooms and homes." />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="accessibility.css" />
     <link rel="stylesheet" href="buddy-studio.css" />
+    <link rel="stylesheet" href="academic.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <aside>
-      <a class="brand" href="#dashboard"
+      <a class="brand" href="#home"
         ><span class="snow">✳</span> SNOW DAY<small>LEARNING LAB</small></a
       >
       <div class="workspace">
-        ◈ &nbsp; Maker Studio <small>Research prototype</small>
+        Learning through making <small>Research & practice prototype</small>
       </div>
       <nav aria-label="Main navigation"></nav>
       <div class="aside-bottom">
-        <span class="dot"></span> A little room to grow.
-        <p>Made for every kind of mind.</p>
+        Teachers College<br>Columbia University
+        <p>Observe with care.<br>Support with curiosity.</p>
       </div>
     </aside>
     <div class="shell">
       <header>
-        <span>Studio / <b id="breadcrumb">Overview</b></span>
+        <span>Learning Lab / <b id="breadcrumb">Home</b></span>
         <div>
-          <span class="demo">◉ &nbsp; Simulated data</span
+          <span class="demo" id="viewContext">Research & practice</span
           ><button id="settingsButton">⚙ Sensory settings</button
-          ><span class="avatar">EL</span>
+          >
         </div>
       </header>
       <main id="main" tabindex="-1"></main>
       <footer>
-        SNOW DAY Learning Lab
-        <span>Observe with care. Support with curiosity.</span>
+        <div><strong>SNOW DAY Learning Lab</strong><br>Department of Mathematics, Science & Technology<br>Teachers College, Columbia University</div>
+        <div>Observe with care. Support with curiosity.<br><small>Inclusive SEL & maker education · Research prototype</small></div>
       </footer>
     </div>
     <dialog id="settings" aria-labelledby="settingsTitle">
@@ -79,6 +81,7 @@
     <div id="toast" role="status"></div>
     <script src="lesson-plans.js"></script>
     <script src="buddy-studio.js"></script>
+    <script src="lab-home.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

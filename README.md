@@ -1,21 +1,27 @@
-# SNOW Day Learning Studio
+# SNOW DAY Learning Lab
 
-Buildless HTML/CSS/vanilla JavaScript prototype. Serve `dist/` with any static HTTP server.
+A buildless, responsive research-and-practice prototype using semantic HTML, CSS, and vanilla JavaScript. The existing Sites project identity and public audience are retained in `.openai/hosting.json`.
 
-Features: overview dashboard, detailed standards-aligned lesson plans, a maker workspace with a visual schedule and per-lesson reflection storage, student companion, local kit cart and demo orders, local educator contributions and parent reflections, and editable ECD thresholds.
+## Run locally
 
-Sensory settings provide Default Light, High Contrast Dark, and Low Sensory Neutral themes; 100%, 115%, and 130% text scaling; larger targets; reduced motion; and narration preferences. Settings persist locally and migrate the original profile names. Hash navigation supports direct links and browser back/forward. A skip link, keyboard focus indicators, native modal dialogs, and responsive layouts support access.
+Run `node preview.cjs`, then open `http://127.0.0.1:4173/`. Run `node tests/matching.cjs` for planning-guide behavior checks. JavaScript syntax can be checked with `node --check <file>`.
 
-`dist/lesson-plans.js` contains the three original teaching plans and lesson/workspace views. Standards links point to NGSS and Common Core primary sources. Tally notation and chart construction are marked as supported extensions of kindergarten classification and counting. SEL intentions are not presented as formal NGSS standards.
+## Structure
 
-## Child buddy studio
+- `dist/index.html`: shared landmarks, institutional identity, and native sensory-settings dialog.
+- `dist/app.js`: hash navigation, sensory preferences, simulated observation dashboard, toolkit, and community views.
+- `dist/lab-home.js`: welcoming home, SEL explanation, linked research foundations, and the five-question planning guide. Its pure `match()` function ranks resources by selected goal and supports; age, setting, and time determine guidance. Survey answers live only in page memory, not storage or a remote service.
+- `dist/lesson-plans.js`: three complete original K–2 plans, explicit standards links, SEL intentions, home adaptations, and the maker workspace.
+- `dist/buddy-studio.js`: child-facing animal design, coloring, calming stories, and local video creation.
+- `dist/academic.css`: responsive academic interface, with semantic colors that inherit light, dark, and neutral themes.
+- `dist/accessibility.css`: shared theme tokens, focus styles, text scaling support, and reduced-motion behavior.
 
-`dist/buddy-studio.js` and `dist/buddy-studio.css` implement the child view at `#companion`. Children can choose a bear, bunny, kitten, or fox; select fur and a patch; and name their virtual stuffed animal. The same vector character appears in three coloring scenes and three four-scene stories. Choices and artwork stay in localStorage.
+## Research and content boundaries
 
-Coloring supports pointer and keyboard input, undo, a fresh page, SVG downloads, and browser printing. Story playback is optional, starts only on a button press, offers manual back/next controls, and pauses when the page is hidden or the child leaves. Optional narration uses browser speech synthesis. Motion respects the sensory preference and operating-system reduced-motion setting. The quiet-moment screen is always accessible and can help a child ask a trusted grown-up to sit with them.
+The home and research views link to CASEL, CAST UDL Guidelines 3.0, MIT constructionist learning resources, and official Teachers College/lab pages. Lesson plans link to NGSS and Common Core standards. Tally notation and comparative picture charts extend kindergarten classification with adult support. Extensions for older learners retain the original K–2 standards label.
 
-Video export renders a 28-second captioned montage to a canvas and records it locally with MediaRecorder (WebM or MP4, depending on browser support). Videos are silent; narration is for live playback. No camera, microphone, account, external generation service, or upload is needed. Export has cancellation and a browser-support fallback. These are gentle, optional wellbeing activities, not clinical treatment or an assessment of a child's emotional state.
+Video recommendations link to original provider pages (Sesame Workshop, PBS KIDS, or MIT); they do not autoplay or embed trackers. Availability and captions remain provider-controlled. Written lesson steps offer a screen-free alternative.
 
-All records persist in browser localStorage. No live sensors, shared accounts, real orders, payments, or delivery integration. The decision rules are illustrative hypotheses and are not validated SEL assessments. Research framing follows the supplied brief; no claim of empirical validation or completed co-design is made.
+This is a research prototype, not an institutionally certified intervention or validated assessment. Observation data are simulated. The survey suggests resources; it does not diagnose, rank, or infer a child's emotional state. Learner preferences, consent, and educator/caregiver judgment guide use.
 
-Dark text maintains readability on calm pastel surfaces. Styles are self-contained CSS rather than Tailwind so this buildless prototype does not depend on a runtime CSS CDN. Optional Google fonts have system fallbacks.
+Themes and maker reflections save on the current device. The planning survey resets on page reload. No camera or microphone data are collected.

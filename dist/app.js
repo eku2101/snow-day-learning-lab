@@ -7,7 +7,10 @@ const read = (k, d) => {
       return d;
     }
   },
-  save = (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+  save = (k, v) => {
+    try { localStorage.setItem(k, JSON.stringify(v)); }
+    catch { toast("Storage is unavailable. You can keep exploring this page."); }
+  },
   escape = (s) =>
     String(s).replace(
       /[&<>"']/g,
@@ -20,7 +23,7 @@ const read = (k, d) => {
           "'": "&#39;",
         })[c],
     );
-let tab = "dashboard",
+let tab = "home",
   running = false,
   timer,
   step = 0,
@@ -36,13 +39,14 @@ let tab = "dashboard",
     speed: 0.8,
   });
 const tabs = [
-  ["dashboard", "◫", "Overview Dashboard"],
+  ["home", "⌂", "Home"],
   ["curriculum", "▤", "Lesson Plans"],
   ["studio", "⬡", "Maker Studio Workspace"],
   ["companion", "♡", "Buddy Studio"],
-  ["kits", "⬡", "Toolkit builder"],
+  ["dashboard", "◫", "Observation Dashboard"],
   ["community", "♧", "Community exchange"],
   ["research", "⚑", "Research & rules"],
+  ["kits", "□", "Toolkit builder"],
 ];
 const people = [
   {
@@ -105,12 +109,14 @@ function heading(ey, title, desc, action = "") {
 function render() {
   window.BuddyStudio?.stop();
   document.body.classList.toggle("child-view", tab === "companion");
-  document.querySelectorAll("nav button").forEach((b) => {
+  document.body.classList.toggle("home-view", tab === "home");
+  document.querySelectorAll("aside nav button").forEach((b) => {
     b.classList.toggle("active", b.dataset.tab === tab);
     b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false");
   });
   $("#breadcrumb").textContent = tabs.find((x) => x[0] === tab)[2];
-  ({ dashboard, companion, curriculum, studio, kits, community, research })[
+  $("#viewContext").textContent = tab === "dashboard" ? "Simulated data only" : "Research & practice";
+  ({ home, dashboard, companion, curriculum, studio, kits, community, research })[
     tab
   ]();
 }
@@ -120,6 +126,7 @@ $("nav").innerHTML = tabs
       `<button data-tab="${id}"><span>${icon}</span>${name}</button>`,
   )
   .join("");
+function home() { window.LabHome.mount(main); }
 function buddyFeature() {
   return `<section class="buddy-feature" aria-labelledby="buddyFeatureTitle">
     <div class="buddy-feature-art" aria-hidden="true">🧸</div>
@@ -146,7 +153,6 @@ function dashboard() {
       "Notice the process. Make room for the next small discovery.",
       `<button id="simulate" class="primary">${running ? "Ⅱ Pause session" : "▷ Start simulation"}</button>`,
     ) +
-    buddyFeature() +
     `<div class="banner"><div><p class="eyebrow">TODAY IN THE MAKER STUDIO</p><h2>Small moments. Meaningful growth.</h2><p>Your learners are building light-up stories. Look for experimentation, help-seeking, and moments of connection.</p></div><div class="sprout" aria-hidden="true">🌱</div></div><div class="stats">${["In flow", "Exploring a challenge", "May need a check-in", "Ready for a new spark"].map((s, i) => `<div class="stat"><span class="stat-icon">${["↗", "⟳", "♡", "✧"][i]}</span><span class="stat-label">${s}</span><div class="value">${counts[i]} <small style="font-size:0.75rem;font-weight:400">learner${counts[i] === 1 ? "" : "s"}</small></div><small>${["Space to keep creating", "Room for productive struggle", "Offer a gentle invitation", "Invite choice and curiosity"][i]}</small></div>`).join("")}</div><div class="two-col"><section class="card"><div class="section-title"><h3>Learning in the moment</h3><small><span class="dot"></span>${running ? "Simulation live" : "Sample session"}</small></div>${people.map((p) => `<div class="learner"><div class="initial">${p.initial}</div><div><b>${p.name}</b><p>${p.task}</p><div class="telemetry">Latency ${p.seconds}s · ${p.taps} taps/min · Gaze drift ${p.gaze}% · Tone ${p.tone}</div></div><span class="badge ${state(p)[1]}">${state(p)[0]}</span></div>`).join("")}<p style="font-size:0.6875rem">Illustrative hypotheses, not emotion detection. Confirm with the learner; gaze and voice are context only.</p></section><section class="card"><div class="section-title"><h3>Gentle next steps</h3><span>✧</span></div><div class="recommendation"><span class="badge frustration">CHECK IN WITH SAM</span><p>Repeated interactions without a change. Offer a pause, a different material, or a little help.</p><button class="text-button" id="checkin">Record a supportive check-in →</button></div><div class="recommendation" style="background:#eeeaf5"><span class="badge boredom">INVITE RILEY TO CHOOSE</span><p>Try a new story prompt or let the learner lead the next challenge.</p><button class="text-button" id="browse">Explore lesson ideas →</button></div><p style="font-size:0.6875rem">No ranking. No punitive scores. Just invitations to support.</p></section></div><div class="card bottom-card"><div><p class="eyebrow">BUILT ON CURIOSITY, GROUNDED IN RESEARCH</p><h3>See the learning behind the making.</h3><p>Evidence-centered design connects meaningful actions with thoughtful support.</p></div><button id="rulesLink">Explore the research ↗</button></div>`;
   $("#simulate").onclick = () => {
     running = !running;
@@ -322,6 +328,7 @@ function research() {
       "Make the evidence visible.",
       "Research framing and transparent, editable prototype rules.",
     ) +
+    window.LabHome.frameworkHTML() +
     `<div class="research-grid"><article class="card"><p class="eyebrow">01 · EVIDENCE-CENTERED DESIGN</p><h3>Stealth assessment</h3><p>Competency: self-regulation and flexible thinking. Evidence: iteration, help-seeking, and pauses. Task: open-ended circuit storytelling.</p></article><article class="card"><p class="eyebrow">02 · PLAYFUL TESTING</p><h3>A dashboard for dialogue</h3><p>The supplied Holbert research framing informs a process-focused dashboard. Teacher and learner co-design remains a future research activity.</p></article><article class="card"><p class="eyebrow">03 · MULTIMODAL ANALYTICS</p><h3>Context before conclusions</h3><p>Simulated pacing, gaze drift, and voice tone illustrate possible signals. No camera, microphone, or hardware input is collected.</p></article></div><section class="card"><h2>ECD rule builder</h2><p>Adjust the illustrative check-in hypothesis. These rules are not validated measures of SEL or internal emotional states.</p><form id="ruleForm"><label>Time without a state change (seconds)<br><input name="seconds" type="number" min="5" max="300" required value="${rules.seconds}"></label><label>Rapid tapping threshold (taps per minute)<br><input name="taps" type="number" min="3" max="120" required value="${rules.taps}"></label><p>When both thresholds are met and no task progress occurs, suggest a supportive check-in. Gaze and tone never trigger the rule.</p><button class="primary">Save rule</button> <button type="button" id="resetRules">Reset defaults</button></form><p id="ruleSummary"></p><details><summary>Inspect all prototype decision rules</summary><p>Priority 1: no progress + saved latency and tap thresholds → unproductive frustration hypothesis.<br>Priority 2: no progress + latency over 60s + fewer than 3 taps/min → boredom hypothesis.<br>Priority 3: latency over 22s or more than 5 taps/min → productive struggle hypothesis.<br>Otherwise → flow hypothesis.</p><p>Rules are illustrative and can misinterpret disability-related movement, communication differences, or a deliberate pause. Teacher observation and learner choice guide support.</p></details></section>`;
   $("#ruleForm").onsubmit = (e) => {
     e.preventDefault();
@@ -371,7 +378,7 @@ $("#settingsButton").onclick = () => $("#settings").showModal();
   },
 );
 function navigate(id, focus = true) {
-  tab = tabs.some((item) => item[0] === id) ? id : "dashboard";
+  tab = tabs.some((item) => item[0] === id) ? id : "home";
   render();
   if (focus) {
     main.focus({ preventScroll: true });

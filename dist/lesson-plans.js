@@ -27,6 +27,8 @@ const lessonPlans = [
       "Record one tally or counter for each card and count each category.",
       "Read a one-picture-per-card chart to compare more, fewer, or equal.",
     ],
+    sel: "Social awareness & relationship skills: listen to a partner’s habitat explanation, offer a sorting role, and agree on how to record a shared idea. Invite an optional feeling check before and after making.",
+    home: "Use three animal drawings and two paper habitat mats. An adult and child take turns suggesting placements, then draw one mark per animal. Keep the same unit and baseline when comparing chart columns.",
     materials:
       "9–12 animal photo cards, forest/pond/grassland mats, resource picture cards, large counters, chart paper, markers, optional tactile outlines.",
     preparation:
@@ -96,8 +98,10 @@ const lessonPlans = [
       "Sketch and build a beginning, middle, and end that address one access need.",
       "Try a chosen feedback method and revise a feature; practice expressing a preference or requesting a break.",
     ],
+    sel: "Self-awareness, self-management & relationship skills: communicate a material preference, ask before touching another person’s work, and choose a pause or a different mode of participation.",
+    home: "Tell a familiar getting-ready story on three cardboard panels: first, next, and finished. Let the child choose pictures or textures, then try the board together during an unhurried moment.",
     materials:
-      "Cardboard panels, large felt/fabric/foam pieces, removable hook-and-loop strips, picture symbols, thick markers, child-safe scissors, tape, optional AAC cards.",
+      "Cardboard panels, large felt/fabric/foam pieces, removable hook-and-loop strips, picture symbols, thick markers, child-safe scissors, tape, optional AAC cards and a commercial recordable audio switch with a secured battery compartment.",
     preparation:
       "Offer a texture tray with yes/no/maybe choices. Define the design goal: a partner can follow three story moments comfortably. Secure materials and remove sharp edges. SEL goals are local learning intentions, not an NGSS emotional assessment.",
     sequence: [
@@ -111,7 +115,7 @@ const lessonPlans = [
       ],
       [
         "Build · 15 min",
-        "Attach large textures or pictures for each story moment. Add a removable character or pointing path. Offer solo construction or a chosen partner role.",
+        "Attach large textures or pictures for each story moment on a beginning–middle–end story map. Add a removable character or pointing path. If wanted, an adult records a short learner-chosen message on an audio switch, sets a comfortable volume, and places it within reach. Offer solo construction or a chosen partner role.",
       ],
       [
         "Try with permission · 8 min",
@@ -165,6 +169,8 @@ const lessonPlans = [
       "Build a stable structure over a defined area with supplied materials.",
       "Compare matched surfaces and use observations to improve the design.",
     ],
+    sel: "Self-management & responsible decision-making: plan one manageable design change, ask for support when a structure tips, and consider how a shelter could protect a shared habitat. Pausing is a valid design choice.",
+    home: "Build a small paper canopy at a table. With an adult, compare two matching safe surfaces outdoors at the same time, shading only one. Draw warmer/cooler observations and return indoors whenever needed.",
     materials:
       "Two identical trays with equal amounts of sand or soil, cardboard, craft sticks, cloth, tape, toy habitat marker, optional adult-operated thermometers, observation cards.",
     preparation:
@@ -267,12 +273,14 @@ function openLesson(id) {
     <h2 id="lessonTitle">${plan.title}</h2><p>${plan.summary}</p>
     <section><h3>Standards alignment</h3><ul>${plan.standards.map(([code, description, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${code} ↗</a> — ${description}</li>`).join("")}</ul></section>
     <section><h3>Learning intentions</h3>${list(plan.objectives)}</section>
+    <section class="lesson-sel"><h3>SEL in the making</h3><p>${plan.sel}</p></section>
     <section><h3>Materials & preparation</h3><p>${plan.materials}</p><p>${plan.preparation}</p></section>
     <section><h3>Activity sequence</h3><ol class="lesson-sequence">${plan.sequence.map(([label, text]) => `<li><h4>${label}</h4><p>${text}</p></li>`).join("")}</ol></section>
     <section><h3>Sensory & accessibility supports</h3>${list(plan.supports)}</section>
     <section><h3>Low-anxiety invitations</h3>${list(plan.prompts)}</section>
     <section><h3>Observe growth</h3><p>${plan.evidence}</p></section>
     <section><h3>Extend the exploration</h3><p>${plan.extension}</p></section>
+    <section><h3>Bring it home</h3><p>${plan.home}</p></section>
     <section><h3>Safe making</h3><p>${plan.safety}</p></section>
     <button class="primary" id="useLesson">Use in Maker Studio →</button></article>`;
   document.body.append(dialog);

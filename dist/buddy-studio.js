@@ -352,7 +352,7 @@ window.BuddyStudio = (() => {
       else speechSynthesis.cancel();
     };
     root.querySelector("#buddyAdult").onclick = () => {
-      location.hash = "dashboard";
+      location.hash = "home";
     };
     root.querySelector("#buddySettings").onclick = () => {
       pause();
