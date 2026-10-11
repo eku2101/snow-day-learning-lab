@@ -752,6 +752,12 @@ window.BuddyStudio = (() => {
       canvas.width = 960;
       canvas.height = 900;
       const context = canvas.getContext("2d");
+      // Canvas cannot resolve CSS variables: snapshot the same accessible palette.
+      const theme = getComputedStyle(document.documentElement);
+      const videoPalette = Object.fromEntries(
+        ["bg-primary", "text-primary", "text-muted"].map(key =>
+          [key, theme.getPropertyValue(`--${key}`).trim()])
+      );
       stream = canvas.captureStream(24);
       const chunks = [];
       recorder = new MediaRecorder(stream, {
@@ -805,7 +811,7 @@ window.BuddyStudio = (() => {
         const elapsed = (now - start) / 1000,
           index = Math.min(3, Math.floor(elapsed / 7)),
           within = elapsed % 7;
-        context.fillStyle = "#fffdf7";
+        context.fillStyle = videoPalette["bg-primary"];
         context.fillRect(0, 0, 960, 900);
         context.save();
         context.beginPath();
@@ -816,10 +822,10 @@ window.BuddyStudio = (() => {
         context.scale(zoom, zoom);
         context.drawImage(images[index], -412.5, -330, 825, 660);
         context.restore();
-        wrap(lines[index][0], 704, "bold 29px sans-serif", "#29483c");
-        wrap(lines[index][1], 751, "26px sans-serif", "#344a42");
+        wrap(lines[index][0], 704, "bold 29px sans-serif", videoPalette["text-primary"]);
+        wrap(lines[index][1], 751, "26px sans-serif", videoPalette["text-primary"]);
         context.font = "18px sans-serif";
-        context.fillStyle = "#566a60";
+        context.fillStyle = videoPalette["text-muted"];
         context.fillText(
           `${index + 1} / 4  ·  SNOW DAY Learning Lab`,
           480,

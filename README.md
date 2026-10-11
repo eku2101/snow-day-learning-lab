@@ -14,7 +14,10 @@ Run `node preview.cjs`, then open `http://127.0.0.1:4173/`. Run `node tests/matc
 - `dist/lesson-plans.js`: three complete original K–2 plans, explicit standards links, SEL intentions, home adaptations, and the maker workspace.
 - `dist/buddy-studio.js`: child-facing animal design, coloring, calming stories, and local video creation.
 - `dist/academic.css`: responsive academic interface, with semantic colors that inherit light, dark, and neutral themes.
-- `dist/accessibility.css`: shared theme tokens, focus styles, text scaling support, and reduced-motion behavior.
+- `dist/design-system.css`: the requested calming palette, three theme variants, shared card/button treatments, and accessible foreground/background roles. Amber is reserved for decorative accents; white text on teal and lavender exceeds 4.5:1. Artwork and user-selected coloring paints retain their independent colors; video captions resolve the screen theme's CSS tokens.
+- `dist/accessibility.css`: focus styles, text scaling support, and reduced-motion behavior.
+
+Run `node tests/palette.cjs` to verify the exact default palette and 66 foreground/background pairs across Light, Dark, and Neutral modes. This checks text contrast, not every WCAG criterion. Cards use a shared 12px radius; primary buttons use teal with white text and lavender on hover.
 
 ## Research and content boundaries
 

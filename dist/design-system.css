@@ -1,0 +1,131 @@
+/* Shared palette. Component CSS and SVG UI use these semantic tokens.
+   Amber is decorative: neither white nor slate text reaches 4.5:1 on it. */
+:root {
+  --bg-primary: #F8F9FA;
+  --bg-surface: #FFFFFF;
+  --text-primary: #2B303A;
+  --text-muted: #5A6578;
+  --brand-teal: #2C6E63;
+  --accent-lavender: #6C5CE7;
+  --soft-mint: #E8F1EE;
+  --soft-amber: #D97706;
+  --border-subtle: #E2E8F0;
+
+  /* Supplemental roles avoid using decorative accent colors as body text. */
+  --text-on-accent: #FFFFFF;
+  --text-heading: var(--brand-teal);
+  --text-link: var(--brand-teal);
+  --surface-lavender: #F1EEFD;
+  --surface-nudge: #FFF4E5;
+  --focus-ring: var(--accent-lavender);
+  --control-border: var(--text-muted);
+  --shadow-color: #2B303A0D;
+  --dialog-backdrop: #2B303A66;
+  --radius-card: 12px;
+  color-scheme: light;
+}
+
+/* Preferences change surfaces and readable ink; buttons retain white labels. */
+:root[data-theme="dark"] {
+  --bg-primary: #151C24;
+  --bg-surface: #202B36;
+  --text-primary: #F2F5F8;
+  --text-muted: #C0CAD8;
+  --soft-mint: #243D37;
+  --border-subtle: #607183;
+  --text-heading: #A8DCCC;
+  --text-link: #A8DCCC;
+  --surface-lavender: #302A48;
+  --surface-nudge: #3C3023;
+  --focus-ring: #CABEFF;
+  --control-border: #A5B5C6;
+  --shadow-color: #151C2433;
+  color-scheme: dark;
+}
+
+:root[data-theme="neutral"] {
+  --bg-primary: #F3F2EE;
+  --bg-surface: #FAF9F5;
+  --soft-mint: #E7ECE7;
+  --border-subtle: #D5DAD5;
+  --surface-lavender: #ECE9F1;
+  --surface-nudge: #F0EADF;
+}
+
+/* Shared component treatment applies equally to educator and child views. */
+body { background: var(--bg-primary); color: var(--text-primary); }
+h1, h2, h3, h4, .brand, .buddy-wordmark { color: var(--text-heading); }
+button, input, select, textarea { color: var(--text-primary); }
+button, input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), select, textarea {
+  background-color: var(--bg-surface);
+}
+button:hover { background: var(--soft-mint); }
+button.primary, .buddy-app .primary, .buddy-launch {
+  background: var(--brand-teal);
+  color: var(--text-on-accent);
+  border-color: var(--brand-teal);
+}
+button.primary:hover, .buddy-app .primary:hover, .buddy-launch:hover {
+  background: var(--accent-lavender);
+  border-color: var(--accent-lavender);
+  color: var(--text-on-accent);
+  filter: none;
+}
+aside nav button.active, .buddy-tabs button[aria-pressed="true"] {
+  background: var(--accent-lavender);
+  color: var(--text-on-accent);
+  border-color: var(--accent-lavender);
+}
+.buddy-app button.selected, .buddy-app button[aria-pressed="true"] {
+  border-color: var(--accent-lavender);
+}
+.survey-option:has(input:checked) {
+  border-color: var(--accent-lavender);
+  box-shadow: inset 3px 0 var(--accent-lavender);
+}
+.steps button.current {
+  background: var(--surface-lavender);
+  border-color: var(--accent-lavender);
+}
+.framework-tags a:hover { border-color: var(--accent-lavender); }
+.card, .lesson-card, .sel-card, .matcher-panel, .buddy-panel,
+.buddy-story-card, .story-screen, .lesson-dialog, .buddy-feature,
+.research-note, .recommendation, .buddy-stage, .buddy-canvas, .paint-toolbar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+body:not(.child-view) .benefit-grid .card,
+.bottom-card, .recommendation-secondary {
+  background: var(--bg-surface) !important;
+}
+.card, .matcher-panel, .buddy-panel { box-shadow: 0 2px 10px var(--shadow-color); }
+.buddy-feature-art, .lab-hero-art, .lesson-visual { background-color: var(--soft-mint); }
+.recommendation { border-left: 3px solid var(--soft-amber); }
+.match-resource { background: var(--bg-surface); }
+.buddy-nameplate { background: var(--bg-surface); }
+.lab-number, .resource-type, .matcher-caption { color: var(--text-link); }
+#toast {
+  background: var(--surface-nudge);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--soft-amber);
+  border-radius: var(--radius-card);
+  box-shadow: 0 3px 16px var(--shadow-color);
+  max-width: calc(100vw - 32px);
+  z-index: 20;
+}
+button:disabled { color: var(--text-muted); background: var(--bg-surface); opacity: 1; border-style: dashed; }
+input[type="radio"], input[type="checkbox"], input[type="range"] { accent-color: var(--accent-lavender); }
+::selection { background: var(--accent-lavender); color: var(--text-on-accent); }
+
+/* Printed coloring sheets use ink and paper, independently of screen theme. */
+@media print {
+  :root, :root[data-theme] {
+    --bg-primary: #F8F9FA;
+    --bg-surface: #FFFFFF;
+    --text-primary: #2B303A;
+    --text-muted: #5A6578;
+    --text-heading: #2C6E63;
+  }
+}

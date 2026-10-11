@@ -1,22 +1,12 @@
 /* System fonts keep the interface fast and independent of remote font services. */
-:root {
-  --bg: #f6f7f3;
-  --ink: #253d38;
-  --muted: #63726c;
-  --line: #dfe5de;
-  --green: #315d4f;
-  --mint: #e4eee4;
-  --card: #fff;
-  --purple: #eee8f7;
-  --yellow: #f6edcf;
-}
+
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font:
     0.875rem "DM Sans",
     sans-serif;
@@ -36,33 +26,33 @@ textarea {
 }
 button {
   cursor: pointer;
-  border: 1px solid var(--line);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  background: white;
+  background: var(--bg-surface);
   padding: 10px 14px;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 button:hover {
-  background: var(--mint);
+  background: var(--soft-mint);
 }
 button.primary {
-  background: var(--green);
-  color: white;
-  border-color: var(--green);
+  background: var(--brand-teal);
+  color: var(--text-on-accent);
+  border-color: var(--brand-teal);
 }
 aside {
   width: 236px;
   position: fixed;
   inset: 0 auto 0 0;
-  background: #eef1e9;
-  border-right: 1px solid var(--line);
+  background: var(--soft-mint);
+  border-right: 1px solid var(--border-subtle);
   padding: 35px 23px;
   display: flex;
   flex-direction: column;
 }
 .brand {
   text-decoration: none;
-  color: var(--ink);
+  color: var(--text-primary);
   font: 800 1.25rem Manrope;
   letter-spacing: 2px;
 }
@@ -80,7 +70,7 @@ aside {
 .workspace {
   margin: 42px 0 27px;
   padding: 16px 12px;
-  background: #e4e9df;
+  background: var(--soft-mint);
   border-radius: 9px;
   font-weight: 600;
 }
@@ -89,7 +79,7 @@ aside {
   font-size: 0.6875rem;
   font-weight: 400;
   margin: 7px 0 0 24px;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 nav {
   display: grid;
@@ -100,11 +90,11 @@ nav button {
   background: none;
   border: none;
   padding: 13px 12px;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 nav button.active {
-  background: var(--green);
-  color: white;
+  background: var(--brand-teal);
+  color: var(--text-on-accent);
 }
 nav button span {
   display: inline-block;
@@ -116,13 +106,13 @@ nav button span {
 }
 .aside-bottom p {
   font-size: 0.6875rem;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 .dot {
   display: inline-block;
   width: 7px;
   height: 7px;
-  background: #6c9b7d;
+  background: var(--brand-teal);
   border-radius: 50%;
   margin-right: 7px;
 }
@@ -131,12 +121,12 @@ nav button span {
 }
 header {
   height: 83px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 38px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 0.75rem;
 }
 header > div {
@@ -149,10 +139,10 @@ header button {
   font-size: 0.75rem;
 }
 .demo {
-  color: #557764;
+  color: var(--text-muted);
 }
 .avatar {
-  background: #e6e1d5;
+  background: var(--soft-mint);
   border-radius: 50%;
   padding: 11px;
   font-weight: 700;
@@ -180,13 +170,13 @@ h3 {
 }
 p {
   line-height: 1.65;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 .eyebrow {
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #6a8274;
+  color: var(--text-muted);
   margin: 0 0 11px;
 }
 .heading {
@@ -199,8 +189,8 @@ p {
   margin: 8px 0 0;
 }
 .banner {
-  background: var(--mint);
-  border: 1px solid #d6e3d3;
+  background: var(--soft-mint);
+  border: 1px solid var(--border-subtle);
   border-radius: 13px;
   padding: 25px 28px;
   display: flex;
@@ -229,8 +219,8 @@ p {
 }
 .stat,
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 21px;
 }
@@ -239,7 +229,7 @@ p {
   margin: 10px 0;
 }
 .stat small {
-  color: var(--muted);
+  color: var(--text-muted);
 }
 .stat-label {
   font-size: 0.75rem;
@@ -248,7 +238,7 @@ p {
   float: right;
   border-radius: 7px;
   padding: 6px;
-  background: var(--mint);
+  background: var(--soft-mint);
 }
 .two-col {
   display: grid;
@@ -262,11 +252,11 @@ p {
   margin-bottom: 17px;
 }
 .section-title small {
-  color: var(--muted);
+  color: var(--text-muted);
 }
 .learner {
   padding: 19px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border-subtle);
   display: grid;
   grid-template-columns: 42px 1fr auto;
   gap: 12px;
@@ -281,7 +271,7 @@ p {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--purple);
+  background: var(--surface-lavender);
   font-weight: 600;
 }
 .learner p {
@@ -292,27 +282,27 @@ p {
   padding: 6px 9px;
   border-radius: 5px;
   font-size: 0.625rem;
-  background: var(--mint);
+  background: var(--soft-mint);
   font-weight: 600;
 }
 .badge.struggle {
-  background: var(--yellow);
+  background: var(--surface-nudge);
 }
 .badge.frustration {
-  background: #f5e2db;
+  background: var(--surface-nudge);
 }
 .badge.boredom {
-  background: var(--purple);
+  background: var(--surface-lavender);
 }
 .telemetry {
   font-size: 0.625rem;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-top: 7px;
 }
 .recommendation {
   padding: 17px;
   border-radius: 9px;
-  background: #faf5e6;
+  background: var(--surface-nudge);
   margin-bottom: 13px;
 }
 .recommendation p {
@@ -325,7 +315,7 @@ p {
   padding: 0;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--green);
+  color: var(--brand-teal);
 }
 .bottom-card {
   margin-top: 24px;
@@ -333,7 +323,7 @@ p {
   justify-content: space-between;
   gap: 20px;
   align-items: center;
-  background: #eeeaf3;
+  background: var(--surface-lavender);
 }
 .bottom-card p {
   margin: 6px 0;
@@ -359,28 +349,28 @@ p {
   place-items: center;
   font-size: 3.3125rem;
   border-radius: 8px;
-  background: var(--mint);
+  background: var(--soft-mint);
 }
 .card:nth-child(2n) .art {
-  background: var(--purple);
+  background: var(--surface-lavender);
 }
 .card:nth-child(3n) .art {
-  background: var(--yellow);
+  background: var(--surface-nudge);
 }
 label {
   display: block;
   margin: 17px 0;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 select,
 input[type="text"],
 input[type="number"],
 textarea {
   padding: 11px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--border-subtle);
   border-radius: 7px;
-  background: white;
-  color: var(--ink);
+  background: var(--bg-surface);
+  color: var(--text-primary);
   max-width: 100%;
 }
 textarea {
@@ -405,7 +395,7 @@ label select {
 .companion .buddy {
   font-size: 6.25rem;
   margin: 30px auto;
-  background: var(--mint);
+  background: var(--soft-mint);
   border-radius: 50%;
   width: 210px;
   height: 210px;
@@ -420,13 +410,13 @@ label select {
 }
 .steps span {
   padding: 13px;
-  background: white;
-  border: 1px solid var(--line);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
 }
 .steps .current {
-  background: var(--mint);
-  border-color: var(--green);
+  background: var(--soft-mint);
+  border-color: var(--brand-teal);
 }
 .actions {
   display: flex;
@@ -439,18 +429,18 @@ label select {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border-subtle);
 }
 dialog {
-  border: 1px solid var(--line);
+  border: 1px solid var(--border-subtle);
   border-radius: 15px;
   max-width: 460px;
   width: 90%;
   padding: 30px;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 dialog::backdrop {
-  background: #20352e66;
+  background: var(--dialog-backdrop);
 }
 .close {
   float: right;
@@ -464,9 +454,9 @@ dialog::backdrop {
 }
 footer {
   padding: 24px 38px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 0.625rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
 }
@@ -474,8 +464,8 @@ footer {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  background: var(--green);
-  color: white;
+  background: var(--brand-teal);
+  color: var(--text-on-accent);
   padding: 14px 22px;
   border-radius: 10px;
   display: none;
@@ -483,17 +473,7 @@ footer {
 .large button {
   min-height: 52px;
 }
-.contrast {
-  --ink: #142b24;
-  --muted: #344a42;
-  --line: #64776e;
-  --bg: #fff;
-}
-.bright {
-  --mint: #d5efdc;
-  --purple: #e0d2f8;
-  --yellow: #f9e4a3;
-}
+
 .reduced * {
   animation: none !important;
   transition: none !important;
