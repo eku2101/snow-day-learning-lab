@@ -103,6 +103,8 @@ function heading(ey, title, desc, action = "") {
   return `<div class="heading"><div><p class="eyebrow">${ey}</p><h1>${title}</h1><p>${desc}</p></div>${action}</div>`;
 }
 function render() {
+  window.BuddyStudio?.stop();
+  document.body.classList.toggle("child-view", tab === "companion");
   document.querySelectorAll("nav button").forEach((b) => {
     b.classList.toggle("active", b.dataset.tab === tab);
     b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false");
@@ -171,34 +173,7 @@ function speak(t) {
   }
 }
 function companion() {
-  const prompts = [
-    "Let’s choose a piece. Your idea can be anything.",
-    "Try putting two pieces together. We can explore at your pace.",
-    "What did you notice? You can show, tell, or keep thinking.",
-    "You made something your own. Want to explore again?",
-  ];
-  main.innerHTML =
-    heading(
-      "YOUR PLAY COMPANION",
-      "Hello, curious maker.",
-      "There is room for your ideas here.",
-    ) +
-    `<section class="companion card"><div class="buddy" aria-label="Friendly bear companion">🐻</div><h2 id="prompt">${prompts[step]}</h2><p>One small step at a time. You can pause whenever you like.</p><div class="steps">${["Choose", "Make", "Notice"].map((s, i) => `<span class="${Math.min(step, 2) === i ? "current" : ""}">${i + 1}. ${s}</span>`).join("")}</div><div class="actions"><button class="primary" id="next">${step === 3 ? "Explore again" : "I’m ready for the next step"}</button><button id="pause">Take a quiet break</button><button id="help">I’d like a little help</button></div></section>`;
-  $("#next").onclick = () => {
-    step = (step + 1) % 4;
-    companion();
-    speak(prompts[step]);
-  };
-  $("#pause").onclick = () => {
-    $("#prompt").textContent =
-      "Let’s rest for a moment. Come back when you feel ready.";
-    speak($("#prompt").textContent);
-  };
-  $("#help").onclick = () => {
-    $("#prompt").textContent =
-      "Try one piece, or invite a trusted grown-up to make with you.";
-    speak($("#prompt").textContent);
-  };
+  window.BuddyStudio.mount(main);
 }
 const products = [
   [
@@ -404,4 +379,3 @@ window.addEventListener("hashchange", () => {
 });
 applyPrefs();
 navigate(location.hash.slice(1), false);
-
