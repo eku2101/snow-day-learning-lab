@@ -40,3 +40,27 @@ reader.load('Voice never starts'); reader.play(); for (const fn of [...timers.va
 reader.stop(); assert.equal(timers.size, 0);
 assert.equal(words('  Hello\nworld!')[1].start, 8);
 console.log('Passed: actual speech highlights, pause/resume, replay, stale callback isolation, UTF-16 boundaries, no-boundary fallback, voice errors, timeout, and no-speech support.');
+
+// Sensitive writing must never fall through to a browser's remote/default voice.
+let localVoices = [{voiceURI:'remote', localService:false, lang:'en-US'}];
+const privateSpoken = [], privateMessages = [];
+const privateReader = create({ localOnly:true, Utterance,
+  synth:{cancel(){}, getVoices(){return localVoices;}, speak(u){privateSpoken.push(u);}},
+  onMessage: message => privateMessages.push(message)
+});
+privateReader.load('A fictional private draft.'); privateReader.play();
+assert.equal(privateSpoken.length,0,'Remote-only voices must not receive writing');
+assert.match(privateMessages.at(-1),/on-device/);
+localVoices.push({voiceURI:'local-en',localService:true,lang:'en-US'});
+privateReader.play(); assert.equal(privateSpoken.at(-1).voice.voiceURI,'local-en');
+privateSpoken.at(-1).onstart();
+localVoices = [{voiceURI:'remote',localService:false,lang:'en-US'}];
+privateSpoken.at(-1).onend(); assert.equal(privateSpoken.length,1,'Losing a local voice must stop before sending the next word');
+localVoices = [{voiceURI:'local-es',localService:true,lang:'es-ES'}, {voiceURI:'remote',localService:false,lang:'en-US'}];
+privateReader.load('Mis palabras.', {voiceURI:'local-es'}); privateReader.play();
+assert.equal(privateSpoken.at(-1).lang,'es-ES');
+assert.equal(privateSpoken.at(-1).voice.localService,true);
+privateReader.load('Another draft.', {voiceURI:'remote'}); privateReader.play();
+assert.equal(privateSpoken.at(-1).voice.voiceURI,'local-es','A requested remote voice cannot bypass local-only mode');
+privateReader.stop();
+console.log('Passed: local-only voice privacy, voice-list refresh, mid-reading voice loss, and selected language.');

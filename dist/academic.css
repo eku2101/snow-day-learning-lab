@@ -15,7 +15,7 @@ aside nav { gap: 4px; }
 aside nav button { font-size: .85rem; padding: 12px 10px; display: flex; align-items: flex-start; gap: 4px; }
 aside nav button span { flex: 0 0 22px; }
 aside nav button:nth-child(4) { margin: 0; border: 0; border-radius: 8px; }
-aside nav button:nth-child(5) { margin-top: 18px; }
+aside nav button[data-tab="dashboard"] { margin-top: 18px; }
 .aside-bottom { line-height: 1.6; border-top: 1px solid var(--border-subtle); padding-top: 20px; margin-top: 28px; }
 header { height: auto; min-height: 76px; gap: 16px; }
 #viewContext { color: var(--text-muted); }

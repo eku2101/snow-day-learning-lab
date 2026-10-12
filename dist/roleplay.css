@@ -1,0 +1,77 @@
+/* The older-learner workspace inherits all sensory themes and text scaling. */
+.roleplay-app { max-width: 1160px; margin: auto; }
+.rp-heading { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.rp-heading h1 { margin: 8px 0 14px; font-size: clamp(2rem, 4vw, 3.5rem); }
+.rp-heading p { max-width: 740px; }
+.rp-pencil { font-size: 4rem; color: var(--text-link); background: var(--soft-mint); border-radius: 50%; width: 112px; height: 112px; flex-shrink: 0; display: grid; place-items: center; }
+.rp-privacy { padding: 18px 22px; margin: 24px 0 16px; border: 1px solid var(--border-subtle); border-left: 4px solid var(--brand-teal); border-radius: var(--radius-card); background: var(--soft-mint); font-size: .875rem; line-height: 1.7; }
+.rp-toolbar, .rp-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.rp-toolbar { margin: 16px 0 28px; }
+.roleplay-app button, .roleplay-app summary, .roleplay-app select { min-height: 48px; }
+.roleplay-app button { white-space: normal; }
+.rp-choose { padding: 24px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); }
+.rp-setup, .rp-voice-options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 24px 0 8px; }
+.roleplay-app label { display: block; font-size: .9rem; font-weight: 650; line-height: 1.5; }
+.roleplay-app select { width: 100%; max-width: 100%; margin-top: 8px; font-size: .875rem; }
+.rp-topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+.rp-topic { display: grid; grid-template-columns: 38px 1fr; gap: 9px 14px; text-align: left; padding: 22px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); }
+.rp-topic:hover { border-color: var(--text-link); }
+.rp-topic > span { font-size: 1.6rem; color: var(--text-link); grid-row: 1 / 3; }
+.rp-topic strong { font-size: 1rem; line-height: 1.4; }
+.rp-topic small { color: var(--text-muted); line-height: 1.6; font-size: .85rem; }
+.rp-small, .rp-writing-meta { font-size: .8rem; color: var(--text-muted); line-height: 1.65; }
+.rp-context { border-bottom: 1px solid var(--border-subtle); margin-bottom: 22px; padding-bottom: 16px; }
+.rp-context h2 { margin: 6px 0 10px; }
+.rp-context p:last-child { max-width: 860px; }
+.rp-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 22px; }
+.rp-steps button { display: flex; gap: 10px; align-items: center; color: var(--text-primary); background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 14px; border-radius: var(--radius-card); }
+.rp-steps button span { display: grid; place-items: center; width: 26px; height: 26px; flex: 0 0 26px; border: 1px solid var(--control-border); border-radius: 50%; }
+.rp-steps button[aria-current="step"] { background: var(--surface-lavender); border-color: var(--accent-lavender); }
+.rp-steps button:disabled { color: var(--text-muted); border-style: dashed; }
+.rp-workspace { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: start; gap: 22px; }
+.rp-editor, .rp-conversation { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 24px; min-width: 0; }
+.rp-editor h2, .rp-conversation h2 { margin: 8px 0 18px; }
+.rp-writing-frame { border-left: 3px solid var(--brand-teal); margin: 22px 0; padding-left: 18px; }
+.rp-prefix { font-size: 1.15rem; font-weight: 650; color: var(--text-heading); }
+.roleplay-app textarea { resize: vertical; width: 100%; min-height: 145px; margin-top: 9px; line-height: 1.75; background: var(--bg-primary); }
+.rp-writing-meta { display: flex; gap: 12px; align-items: start; justify-content: space-between; }
+.rp-writing-meta p { margin: 8px 0; }
+.rp-writing-meta span { margin-top: 8px; white-space: nowrap; }
+.rp-ideas summary, .rp-audio summary, .rp-grownup summary { padding: 12px 0; cursor: pointer; font-weight: 650; line-height: 1.5; }
+.rp-ideas p { font-size: .85rem; }
+.rp-idea-buttons { display: grid; gap: 9px; }
+.rp-idea-buttons button { text-align: left; line-height: 1.5; }
+.rp-draft-preview { background: var(--soft-mint); padding: 16px 20px; border-radius: var(--radius-card); margin: 22px 0 14px; }
+.rp-draft-preview h3 { margin: 0 0 8px; }
+.rp-draft-preview p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rp-bubble { border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 16px; margin: 16px 0; }
+.rp-bubble > span { font-size: .75rem; font-weight: 700; color: var(--text-link); }
+.rp-bubble p { margin: 8px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rp-bubble.rp-mine { background: var(--soft-mint); margin-left: 20px; }
+.rp-bubble.rp-partner { background: var(--surface-lavender); margin-right: 20px; }
+.rp-bubble button { font-size: .8rem; margin-top: 12px; }
+.rp-empty { color: var(--text-muted); border: 1px dashed var(--control-border); padding: 18px; border-radius: var(--radius-card); font-size: .85rem; }
+.rp-audio, .rp-grownup { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 14px 22px; margin: 22px 0; }
+.rp-audio p, .rp-grownup p { font-size: .875rem; }
+.rp-voice-options { margin-bottom: 18px; }
+.rp-read-words { font-size: 1.1rem !important; line-height: 2 !important; overflow-wrap: anywhere; }
+.rp-read-words span { padding: .1em .06em; border-radius: 4px; }
+.roleplay-app dialog { max-width: 540px; }
+.roleplay-entry { background: var(--soft-mint); }
+@media (max-width: 1000px) {
+  .rp-workspace { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .rp-heading { gap: 12px; }
+  .rp-pencil { display: none; }
+  .rp-topic-grid, .rp-setup, .rp-voice-options { grid-template-columns: 1fr; }
+  .rp-choose, .rp-editor, .rp-conversation { padding: 18px; }
+  .rp-topic { padding: 16px; }
+  .rp-steps { gap: 7px; }
+  .rp-steps button { flex-direction: column; align-items: flex-start; font-size: .8rem; padding: 10px 8px; }
+  .rp-buttons > button { flex: 1 1 160px; }
+  .rp-privacy { padding: 16px; }
+  .rp-writing-frame { padding-left: 12px; }
+  .rp-bubble.rp-mine { margin-left: 8px; }
+  .rp-bubble.rp-partner { margin-right: 8px; }
+}

@@ -42,3 +42,13 @@ Choose Story time, a topic, a story, then Read with me. Pause resumes from the c
 Run `node tests/read-along.cjs` for speech cancellation, late events, resume/replay, boundary mapping, errors, and unavailable-voice behavior; run `node tests/stories.cjs` for story rendering contracts.
 
 The title Everyday Feelings, Shared Stories places familiar language and family experience at the center of SEL. The home page recognizes the stories, languages, routines, and practical knowledge that connect families, communities, and schools, with a linked funds-of-knowledge source. The existing URL and repository identity are unchanged.
+
+## Write & Role-play (grades 4–12)
+
+Open `#roleplay` from the home invitation or sidebar. `roleplay-data.js` contains six original scenarios with grades 4–6, 7–9, and 10–12 writing supports. Three invitations help learners describe an experience, identify support, and make a request. Each offers a topic-specific starter, a second starter, optional editable ideas, and unrestricted writing. Learners may skip any invitation or use a fictional situation. `roleplay.js` renders a scripted supportive conversation; it does not interpret or classify the learner’s writing.
+
+Writing exists only in module memory while this view is open. Navigation, reload, or the confirmed Clear/Finish action removes it. Drafts are not sent to a server, persisted in local/session storage, recorded, or added to the community portal. Prompt changes retain separate drafts; ideas append rather than overwrite existing words. Opening Sensory settings or hiding the tab pauses speech.
+
+Optional read-aloud uses `read-along.js` with `localOnly: true`; no remote or default voice fallback is permitted. Available on-device voices can be selected, including other languages. If none are available, written role-play remains fully usable. Narration uses actual speech events for highlighting and requires a button press. Native voice behavior remains device-dependent.
+
+Run `node tests/roleplay.cjs` and `node tests/read-along.cjs` for scaffold behavior and local-only narration privacy. The linked American Academy of Pediatrics source supports the family-change framing; the tool is a writing practice, not a counseling service.

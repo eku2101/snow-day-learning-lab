@@ -2,10 +2,10 @@
    Word mode works without boundary events; smooth mode uses native word boundaries. */
 window.BuddyReadAlong = (() => {
   const words = text => Array.from(text.matchAll(/\S+/gu), match => ({ text: match[0], start: match.index }));
-  function create({ synth = window.speechSynthesis, Utterance = window.SpeechSynthesisUtterance,
+  function create({ synth = window.speechSynthesis, Utterance = window.SpeechSynthesisUtterance, localOnly = false,
     onHighlight = () => {}, onState = () => {}, onMessage = () => {} } = {}) {
     let text = "", tokens = [], index = 0, state = "idle", generation = 0;
-    let mode = "words", rate = 0.8, current = null, watchdog = null;
+    let mode = "words", rate = 0.8, current = null, watchdog = null, voiceURI = "";
     const supported = !!(synth && Utterance);
     const setState = next => { state = next; onState(next); };
     function cancel() {
@@ -38,11 +38,20 @@ window.BuddyReadAlong = (() => {
       const base = tokens[start].start;
       const utterance = new Utterance(text.slice(base, tokens[end].start + tokens[end].text.length));
       current = utterance; // Retain a strong reference while the browser speaks.
-      utterance.lang = "en-US";
       utterance.rate = rate;
       const voices = synth.getVoices?.() || [];
-      utterance.voice = voices.find(v => v.localService && /^en[-_]/i.test(v.lang)) ||
-        voices.find(v => /^en[-_]/i.test(v.lang)) || null;
+      const eligible = localOnly ? voices.filter(v => v.localService) : voices;
+      utterance.voice = eligible.find(v => v.voiceURI === voiceURI) ||
+        eligible.find(v => v.localService && /^en[-_]/i.test(v.lang)) ||
+        eligible.find(v => /^en[-_]/i.test(v.lang)) || (localOnly ? eligible[0] : null) || null;
+      if (localOnly && !utterance.voice) {
+        current = null;
+        onHighlight(-1, -1);
+        setState("paused");
+        onMessage("An on-device reading voice is not available yet. Try again, or read your writing here. Your words will not be sent to an online voice.");
+        return;
+      }
+      utterance.lang = utterance.voice?.lang || "en-US";
       const ticket = generation;
       const valid = () => ticket === generation && state === "reading";
       let wordBoundary = false;
@@ -78,6 +87,7 @@ window.BuddyReadAlong = (() => {
       load(value, options = {}) {
         cancel(); text = value; tokens = words(value); index = 0;
         mode = options.mode === "smooth" ? "smooth" : "words";
+        voiceURI = options.voiceURI || "";
         rate = Math.min(1.5, Math.max(0.5, Number(options.rate) || 0.8));
         onHighlight(-1, -1); setState("idle");
       },

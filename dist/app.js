@@ -43,6 +43,7 @@ const tabs = [
   ["curriculum", "▤", "Lesson Plans"],
   ["studio", "⬡", "Maker Studio Workspace"],
   ["companion", "♡", "Buddy Studio"],
+  ["roleplay", "✎", "Write & Role-play"],
   ["dashboard", "◫", "Observation Dashboard"],
   ["community", "♧", "Community exchange"],
   ["research", "⚑", "Research & rules"],
@@ -108,6 +109,7 @@ function heading(ey, title, desc, action = "") {
 }
 function render() {
   window.BuddyStudio?.stop();
+  window.RoleplayStudio?.stop();
   document.body.classList.toggle("child-view", tab === "companion");
   document.body.classList.toggle("home-view", tab === "home");
   document.querySelectorAll("aside nav button").forEach((b) => {
@@ -116,7 +118,7 @@ function render() {
   });
   $("#breadcrumb").textContent = tabs.find((x) => x[0] === tab)[2];
   $("#viewContext").textContent = tab === "dashboard" ? "Simulated data only" : "Research & practice";
-  ({ home, dashboard, companion, curriculum, studio, kits, community, research })[
+  ({ home, dashboard, companion, roleplay, curriculum, studio, kits, community, research })[
     tab
   ]();
 }
@@ -127,6 +129,7 @@ $("nav").innerHTML = tabs
   )
   .join("");
 function home() { window.LabHome.mount(main); }
+function roleplay() { window.RoleplayStudio.mount(main); }
 function buddyFeature() {
   return `<section class="buddy-feature" aria-labelledby="buddyFeatureTitle">
     <div class="buddy-feature-art" aria-hidden="true">🧸</div>
@@ -362,7 +365,10 @@ function applyPrefs() {
     prefs.motion || prefs.profile === "neutral",
   );
 }
-$("#settingsButton").onclick = () => $("#settings").showModal();
+$("#settingsButton").onclick = () => {
+  window.RoleplayStudio?.pause();
+  $("#settings").showModal();
+};
 ["profile", "fontScale", "large", "motion", "narrate", "speed"].forEach(
   (id) => {
     const control = $("#" + id);
