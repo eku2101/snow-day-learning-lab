@@ -1,6 +1,6 @@
-# Kindorill
+# Everyday Feelings, Shared Stories
 
-Little feelings. Growing together.
+The ways we care. The stories we bring.
 
 SNOW DAY Learning Lab
 
@@ -41,4 +41,4 @@ Choose Story time, a topic, a story, then Read with me. Pause resumes from the c
 
 Run `node tests/read-along.cjs` for speech cancellation, late events, resume/replay, boundary mapping, errors, and unavailable-voice behavior; run `node tests/stories.cjs` for story rendering contracts.
 
-The coined site name Kindorill had no exact-match web search results on October 11, 2026. This is not a worldwide exclusivity or trademark determination. The existing URL and repository identity are unchanged.
+The title Everyday Feelings, Shared Stories places familiar language and family experience at the center of SEL. The home page recognizes the stories, languages, routines, and practical knowledge that connect families, communities, and schools, with a linked funds-of-knowledge source. The existing URL and repository identity are unchanged.

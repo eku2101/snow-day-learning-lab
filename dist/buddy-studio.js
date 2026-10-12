@@ -271,7 +271,7 @@ window.BuddyStudio = (() => {
   }
   function render() {
     root.innerHTML = `<div class="buddy-app">
-      <div class="buddy-top"><span class="buddy-wordmark">✳ Kindorill <small>SNOW DAY Learning Lab</small></span><div class="buddy-top-actions"><button id="buddySound" aria-pressed="${sound}">${sound ? "♫ Sound on" : "♫ Sound off"}</button><button id="buddySettings">⚙ Comfort</button><button id="buddyQuickRest">☁ Quiet moment</button><button id="buddyAdult">Grown-up view ↗</button></div></div>
+      <div class="buddy-top"><span class="buddy-wordmark">✳ Everyday Feelings,<br>Shared Stories <small>SNOW DAY Learning Lab</small></span><div class="buddy-top-actions"><button id="buddySound" aria-pressed="${sound}">${sound ? "♫ Sound on" : "♫ Sound off"}</button><button id="buddySettings">⚙ Comfort</button><button id="buddyQuickRest">☁ Quiet moment</button><button id="buddyAdult">Grown-up view ↗</button></div></div>
       <div class="buddy-intro"><p class="eyebrow">A LITTLE FRIEND. A LITTLE MOMENT OF CALM.</p><h1>Hello, curious maker.</h1><p>Make a soft little friend. Take your time together.</p></div>
       <nav class="buddy-tabs" aria-label="Buddy activities">${[
         ["make", "♡", "Make a buddy"],
@@ -787,7 +787,7 @@ window.BuddyStudio = (() => {
         context.font = "18px sans-serif";
         context.fillStyle = videoPalette["text-muted"];
         context.fillText(
-          `${index + 1} / 4  ·  Kindorill · SNOW DAY Learning Lab`,
+          `${index + 1} / 4  ·  Everyday Feelings, Shared Stories · SNOW DAY Learning Lab`,
           480,
           1018,
         );

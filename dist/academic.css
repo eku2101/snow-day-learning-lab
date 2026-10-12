@@ -27,8 +27,8 @@ footer small { font-size: inherit; }
 body:not(.child-view) .lab-hero h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 3.8vw, 4rem); font-weight: 400; letter-spacing: -.04em; }
 .lab-hero h1 em { color: var(--text-heading); font-weight: 400; }
 .lab-hero .lab-byline { margin: 10px 0 22px; font-size: .85rem; color: var(--text-muted); }
-.lab-hero .kindorill-tagline { font: 400 clamp(1.6rem, 2.5vw, 2.6rem)/1.3 Georgia, serif; margin: 0; }
-.kindorill-tagline em { color: var(--text-heading); }
+.lab-hero .community-tagline { font: 400 clamp(1.6rem, 2.5vw, 2.6rem)/1.3 Georgia, serif; margin: 0; }
+.community-tagline em { color: var(--text-heading); }
 .hero-lead { font-size: 1rem; max-width: 38em; margin-top: 22px; }
 .lab-motto { font-size: .85rem; font-weight: 600; color: var(--text-primary); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }
@@ -146,3 +146,9 @@ body:not(.child-view) .filters input { min-width: 0; }
   .hero-actions>* { justify-content: center; width: 100%; }
   footer { padding: 24px 16px; }
 }
+
+/* The descriptive title wraps without crowding the lab affiliation. */
+.brand-title { display: block; font-size: 1rem; line-height: 1.4; letter-spacing: -.015em; }
+.brand .snow { display: block; font-size: 1.5rem; margin-bottom: 7px; }
+.lab-hero .family-invitation { border-left: 3px solid var(--brand-teal); padding-left: 16px; font-size: .9rem; margin: 22px 0; }
+body:not(.child-view) .lab-hero h1 { font-size: clamp(2rem, 3.2vw, 3.5rem); }

@@ -423,7 +423,7 @@
   display: none;
 }
 /* Child-led story choices and a stable read-along line: no flashing or word jumps. */
-.buddy-wordmark { letter-spacing: .01em; font-size: 1.4rem; }
+.buddy-wordmark { letter-spacing: .01em; font-size: 1.2rem; line-height: 1.35; }
 .buddy-wordmark small { display: block; margin-top: 5px; font-size: .7rem; font-weight: 500; letter-spacing: .02em; }
 .story-library-heading { text-align: center; max-width: 650px; margin: 0 auto 24px; }
 .story-library-heading h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 8px 0; }
