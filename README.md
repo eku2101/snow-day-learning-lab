@@ -1,4 +1,8 @@
-# SNOW DAY Learning Lab
+# Kindorill
+
+Little feelings. Growing together.
+
+SNOW DAY Learning Lab
 
 A buildless, responsive research-and-practice prototype using semantic HTML, CSS, and vanilla JavaScript. The existing Sites project identity and public audience are retained in `.openai/hosting.json`.
 
@@ -12,7 +16,9 @@ Run `node preview.cjs`, then open `http://127.0.0.1:4173/`. Run `node tests/matc
 - `dist/app.js`: hash navigation, sensory preferences, simulated observation dashboard, toolkit, and community views.
 - `dist/lab-home.js`: welcoming home, SEL explanation, linked research foundations, and the five-question planning guide. Its pure `match()` function ranks resources by selected goal and supports; age, setting, and time determine guidance. Survey answers live only in page memory, not storage or a remote service.
 - `dist/lesson-plans.js`: three complete original K–2 plans, explicit standards links, SEL intentions, home adaptations, and the maker workspace.
-- `dist/buddy-studio.js`: child-facing animal design, coloring, calming stories, and local video creation.
+- `dist/buddy-studio.js`: child-facing animal design, coloring, topic-based SEL stories, and local video creation.
+- `dist/buddy-stories.js`: nine original, four-page stories about sharing, safe hands, asking for help, feelings, friendship, curiosity, and calming.
+- `dist/read-along.js`: cancellable browser speech controller. Word mode (default) highlights each word from actual speech start events, including voices without boundary events. Smooth mode uses native word boundaries when available, otherwise a sentence highlight. No estimated timing or automatic page turns.
 - `dist/academic.css`: responsive academic interface, with semantic colors that inherit light, dark, and neutral themes.
 - `dist/design-system.css`: the requested calming palette, three theme variants, shared card/button treatments, and accessible foreground/background roles. Amber is reserved for decorative accents; white text on teal and lavender exceeds 4.5:1. Artwork and user-selected coloring paints retain their independent colors; video captions resolve the screen theme's CSS tokens.
 - `dist/accessibility.css`: focus styles, text scaling support, and reduced-motion behavior.
@@ -28,3 +34,11 @@ Video recommendations link to original provider pages (Sesame Workshop, PBS KIDS
 This is a research prototype, not an institutionally certified intervention or validated assessment. Observation data are simulated. The survey suggests resources; it does not diagnose, rank, or infer a child's emotional state. Learner preferences, consent, and educator/caregiver judgment guide use.
 
 Themes and maker reflections save on the current device. The planning survey resets on page reload. No camera or microphone data are collected.
+
+## Buddy read-along
+
+Choose Story time, a topic, a story, then Read with me. Pause resumes from the current word; page changes, leaving Buddy Studio, opening Comfort, and hiding the tab cancel speech. No microphone access is used. Voice availability and pronunciation depend on the browser; local English voices are preferred. The site does not store the selected topic or any child disclosure. Video exports retain captions and are silent.
+
+Run `node tests/read-along.cjs` for speech cancellation, late events, resume/replay, boundary mapping, errors, and unavailable-voice behavior; run `node tests/stories.cjs` for story rendering contracts.
+
+The coined site name Kindorill had no exact-match web search results on October 11, 2026. This is not a worldwide exclusivity or trademark determination. The existing URL and repository identity are unchanged.

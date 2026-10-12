@@ -56,95 +56,8 @@ window.BuddyStudio = (() => {
     patch: patches.some(([id]) => id === stored.patch) ? stored.patch : "heart",
     name: typeof stored.name === "string" ? stored.name.slice(0, 18) : "Mallow",
   };
-  const stories = [
-    {
-      id: "cloud",
-      title: "The little cloud garden",
-      icon: "☁",
-      theme: "garden",
-      skill: "A soft breath, at your own pace.",
-      scenes: [
-        [
-          "A busy little morning",
-          "{name} has lots of fluttery feelings. We can slow down together.",
-          "You can just watch, too.",
-        ],
-        [
-          "Hello, little flower",
-          "{name} notices a flower. If you like, take one comfortable breath in.",
-          "No big breath needed.",
-        ],
-        [
-          "A cloud floats by",
-          "{name} lets the breath out gently, like a cloud drifting away.",
-          "Let your body choose its pace.",
-        ],
-        [
-          "A place to stay",
-          "{name} rests beside the flowers. Every feeling is welcome here.",
-          "Rest, watch again, or ask a grown-up to sit with you.",
-        ],
-      ],
-    },
-    {
-      id: "puddle",
-      title: "Paws by the peaceful pond",
-      icon: "≈",
-      theme: "pond",
-      skill: "Feel your feet. Let your shoulders soften.",
-      scenes: [
-        [
-          "Wiggly paws",
-          "{name} feels wiggly after a big day. There is time for a little pause.",
-          "Sitting or standing is okay.",
-        ],
-        [
-          "Hello, ground",
-          "{name} notices the ground. If comfortable, feel your feet or your seat.",
-          "You can choose any comfy position.",
-        ],
-        [
-          "Soft little shoulders",
-          "{name} lifts their shoulders a little, then lets them soften.",
-          "Only move if it feels good to you.",
-        ],
-        [
-          "Ripples settle",
-          "{name} watches a ripple. You do not have to do anything right now.",
-          "Your body can rest in its own way.",
-        ],
-      ],
-    },
-    {
-      id: "cozy",
-      title: "The cozy blanket hideaway",
-      icon: "⌂",
-      theme: "stars",
-      skill: "Choose comfort and ask for a little help.",
-      scenes: [
-        [
-          "A lot to notice",
-          "The day feels a little too busy for {name}. A quiet place might help.",
-          "It is okay to want less noise or light.",
-        ],
-        [
-          "Make a cozy space",
-          "{name} chooses a soft spot. You can choose what feels comfortable.",
-          "A cushion, a quiet corner, or some space.",
-        ],
-        [
-          "A helping hand",
-          "{name} asks a trusted grown-up: “Will you sit with me?”",
-          "You can ask with words, a picture, or a gesture.",
-        ],
-        [
-          "Together for a while",
-          "{name} settles in. There is no hurry to feel a different way.",
-          "We can stay here for a little while.",
-        ],
-      ],
-    },
-  ];
+  const { stories, topics } = window.BuddyStories;
+  let selectedTopic = "all", readingMode = "words";
   let root,
     view = "make",
     coloringScene = "garden",
@@ -154,7 +67,6 @@ window.BuddyStudio = (() => {
     currentStory = null,
     sceneIndex = 0;
   let playing = false,
-    storyTimer = null,
     sound = false,
     movieCancel = null,
     movieUrl = null,
@@ -176,7 +88,29 @@ window.BuddyStudio = (() => {
       localStorage.setItem("snow-buddy-art-v1", JSON.stringify(artwork));
     } catch {}
   };
+  const reader = window.BuddyReadAlong.create({
+    onHighlight(first, last) {
+      root?.querySelectorAll("[data-read-word]").forEach((word, i) => {
+        word.classList.toggle("reading-word", i >= first && i <= last && first >= 0);
+      });
+    },
+    onState(state) {
+      playing = state === "reading";
+      const button = root?.querySelector("#storyPlay");
+      if (button) {
+        button.textContent = ({ reading: "Ⅱ Pause reading", paused: "▷ Keep reading", done: "↶ Read again" })[state] || "▷ Read with me";
+        button.setAttribute("aria-pressed", String(playing));
+      }
+      root?.querySelectorAll("#story-picture .story-buddy").forEach(node =>
+        node.classList.toggle("buddy-alive", playing && !reduced()));
+    },
+    onMessage(message) {
+      const node = root?.querySelector("#reading-status");
+      if (node) node.textContent = message;
+    },
+  });
   function tell(text) {
+    reader.stop();
     if (!sound || !("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
     const voice = new SpeechSynthesisUtterance(text);
@@ -185,12 +119,12 @@ window.BuddyStudio = (() => {
   }
   function pause() {
     playing = false;
-    clearTimeout(storyTimer);
-    storyTimer = null;
+    reader.pause();
     if ("speechSynthesis" in window) speechSynthesis.cancel();
   }
   function stop() {
     pause();
+    reader.stop();
     if (movieCancel) movieCancel();
     if (movieUrl) {
       URL.revokeObjectURL(movieUrl);
@@ -204,7 +138,7 @@ window.BuddyStudio = (() => {
     if (document.hidden) {
       pause();
       if (movieCancel) movieCancel();
-      if (active && view === "stories" && currentStory) renderPlayer();
+
     }
   }
 
@@ -216,6 +150,7 @@ window.BuddyStudio = (() => {
     stage = 0,
     animated = false,
     thumbnail = false,
+    pose = "",
   } = {}) {
     const ink = "#49544f",
       paper = "#fffdf7";
@@ -263,10 +198,11 @@ window.BuddyStudio = (() => {
         : buddy.patch === "star"
           ? `<polygon points="${star(300, 333, 27)}"`
           : '<path d="M313 309 A26 26 0 1 0 321 351 A25 25 0 0 1 313 309Z"';
-    let animal = `<g${animated && !reduced() ? ' class="buddy-alive"' : ""}>
+    const lifted = pose ? ["stretch", "ask", "ask-friend", "share", "wave"].includes(pose) : stage === 2;
+    let animal = `<g class="story-buddy${animated && !reduced() ? ' buddy-alive' : ''}">
       ${ears}
-      <ellipse cx="213" cy="${stage === 2 ? 297 : 320}" rx="32" ry="61" transform="rotate(${stage === 2 ? 55 : 24} 213 320)" ${part("fur", "the fur", buddy.color)}/>
-      <ellipse cx="387" cy="${stage === 2 ? 297 : 320}" rx="32" ry="61" transform="rotate(${stage === 2 ? -55 : -24} 387 320)" ${part("fur", "the fur", buddy.color)}/>
+      ${pose === "pause" ? "" : `<ellipse cx="213" cy="${lifted ? 297 : 320}" rx="32" ry="61" transform="rotate(${lifted ? 55 : 24} 213 320)" ${part("fur", "the fur", buddy.color)}/>
+      <ellipse cx="387" cy="${lifted ? 297 : 320}" rx="32" ry="61" transform="rotate(${lifted ? -55 : -24} 387 320)" ${part("fur", "the fur", buddy.color)}/>`}
       <ellipse cx="300" cy="331" rx="90" ry="96" ${part("fur", "the fur", buddy.color)}/>
       <ellipse cx="248" cy="409" rx="44" ry="31" ${part("paws", "the paws", buddy.color)}/><ellipse cx="352" cy="409" rx="44" ry="31" ${part("paws", "the paws", buddy.color)}/>
       <ellipse cx="248" cy="414" rx="20" ry="13" ${part("paw-pads", "the paw pads", "#f5e4d9")}/><ellipse cx="352" cy="414" rx="20" ry="13" ${part("paw-pads", "the paw pads", "#f5e4d9")}/>
@@ -282,7 +218,7 @@ window.BuddyStudio = (() => {
       ${patch} ${part("patch", "the special patch", "#e1adc2")}/>
     </g>`;
     let storyDetail = "";
-    if (!outline && !thumbnail && stage > 0) {
+    if (!outline && !thumbnail && !pose && stage > 0) {
       if (scene === "garden")
         storyDetail =
           stage === 1
@@ -296,7 +232,23 @@ window.BuddyStudio = (() => {
             ? '<rect x="105" y="358" width="81" height="56" rx="22" fill="#e8c0cd"/><path d="M120 371 l50 29 m-50 0 l50 -29" fill="none" stroke-dasharray="3 5"/>'
             : '<path d="M206 363 Q300 330 394 363 L416 432 Q300 454 184 432Z" fill="#c5d8bb"/><path d="M213 375 Q300 350 387 375" fill="none" stroke-dasharray="4 7"/>';
     }
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="480" viewBox="0 0 600 480"${paint ? ' aria-label="Tap a part of your animal or the scene to color it"' : ` role="img" aria-label="${e(name())}, your stuffed ${buddy.animal}"`}><title>${e(name())}'s ${scene === "stars" ? "cozy hideaway" : scene}</title><g stroke="${ink}" stroke-width="${outline ? 3 : 2.5}" stroke-linecap="round" stroke-linejoin="round">${thumbnail ? `<rect width="600" height="480" rx="30" fill="${paper}" stroke="none"/>` : landscape}${animal}${storyDetail}</g></svg>`;
+    // Still illustrations model the action even when reduced motion is enabled.
+    if (pose && !outline) {
+      const friend = `<g transform="translate(94 352)"><circle cx="-28" cy="-37" r="13" fill="#b6d1db"/><circle cx="28" cy="-37" r="13" fill="#b6d1db"/><ellipse cy="36" rx="39" ry="45" fill="#b6d1db"/><circle r="39" fill="#b6d1db"/><circle cx="-12" cy="-3" r="3" fill="${ink}"/><circle cx="12" cy="-3" r="3" fill="${ink}"/><path d="M-10 12q10 12 20 0" fill="none"/></g>`;
+      const helper = `<g transform="translate(94 294)"><ellipse cy="70" rx="45" ry="77" fill="#d3c5e5"/><circle r="42" fill="#f4ded5"/><circle cx="-13" cy="-4" r="3" fill="${ink}"/><circle cx="13" cy="-4" r="3" fill="${ink}"/><path d="M-12 12q12 13 24 0" fill="none"/></g>`;
+      const block = (x,y) => `<rect x="${x}" y="${y}" width="40" height="40" rx="5" fill="#abc9df"/><path d="M${x+7} ${y+7}h26v26h-26z" fill="none"/>`;
+      if (["share", "listen", "wave", "ask-friend"].includes(pose)) storyDetail += friend;
+      if (["ask", "listen-helper"].includes(pose)) storyDetail += helper;
+      if (["ask", "ask-friend", "listen", "listen-helper", "notice"].includes(pose)) storyDetail += `<path d="M424 163h110q12 0 12 12v53q0 12-12 12h-50l-23 21 4-21h-41q-12 0-12-12v-53q0-12 12-12Z" fill="${paper}"/><circle cx="445" cy="201" r="4" fill="${ink}"/><circle cx="477" cy="201" r="4" fill="${ink}"/><circle cx="509" cy="201" r="4" fill="${ink}"/>`;
+      if (pose === "share") storyDetail += block(135,365) + block(387,275);
+      if (pose === "blocks") storyDetail += block(435,382) + block(482,398) + block(464,337);
+      if (pose === "build") storyDetail += friend + block(420,390) + block(472,390) + `<rect x="416" y="365" width="100" height="25" rx="5" fill="#e5c47c"/>`;
+      if (pose === "pause") storyDetail += `<ellipse cx="275" cy="350" rx="22" ry="31" fill="${buddy.color}" transform="rotate(-25 275 350)"/><ellipse cx="325" cy="350" rx="22" ry="31" fill="${buddy.color}" transform="rotate(25 325 350)"/>`;
+      if (pose === "breathe") storyDetail += `<path d="M398 228q45-25 68 0m-58 16q45-15 60 0" fill="none"/><path d="M466 246v65" fill="none"/><circle cx="466" cy="237" r="18" fill="#e8bfcc"/><circle cx="466" cy="237" r="7" fill="#efda9e"/>`;
+      if (pose === "shadow") storyDetail += `<ellipse cx="470" cy="435" rx="59" ry="12" fill="#a8b8ab"/>${block(427,380)}<path d="M485 300l-26 68m39-62-18 65" fill="none"/><path d="M477 296l24-10 16 29-24 10Z" fill="#e5c47c"/>`;
+    }
+    const action = ({ "ask-friend": "asking a friend a question", "listen-helper": "listening beside a grown-up", share: "sharing blocks with a friend", ask: "talking to a grown-up", listen: "listening beside a friend", wave: "greeting a friend", blocks: "beside some blocks", build: "building beside a friend", pause: "resting paws on their tummy", breathe: "breathing gently near a flower", shadow: "exploring a block and its shadow", stretch: "lifting their shoulders", notice: "noticing a feeling" })[pose];
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="480" viewBox="0 0 600 480"${paint ? ' aria-label="Tap a part of your animal or the scene to color it"' : ` role="img" aria-label="${e(name())}, your stuffed ${buddy.animal}${action ? `, ${action}` : ""}"`}><title>${e(name())}'s ${scene === "stars" ? "cozy hideaway" : scene}</title><g stroke="${ink}" stroke-width="${outline ? 3 : 2.5}" stroke-linecap="round" stroke-linejoin="round">${thumbnail ? `<rect width="600" height="480" rx="30" fill="${paper}" stroke="none"/>` : landscape}${animal}${storyDetail}</g></svg>`;
   }
 
   function mount(target) {
@@ -319,7 +271,7 @@ window.BuddyStudio = (() => {
   }
   function render() {
     root.innerHTML = `<div class="buddy-app">
-      <div class="buddy-top"><span class="buddy-wordmark">✳ SNOW DAY <small>little makers</small></span><div class="buddy-top-actions"><button id="buddySound" aria-pressed="${sound}">${sound ? "♫ Sound on" : "♫ Sound off"}</button><button id="buddySettings">⚙ Comfort</button><button id="buddyAdult">Grown-up view ↗</button></div></div>
+      <div class="buddy-top"><span class="buddy-wordmark">✳ Kindorill <small>SNOW DAY Learning Lab</small></span><div class="buddy-top-actions"><button id="buddySound" aria-pressed="${sound}">${sound ? "♫ Sound on" : "♫ Sound off"}</button><button id="buddySettings">⚙ Comfort</button><button id="buddyQuickRest">☁ Quiet moment</button><button id="buddyAdult">Grown-up view ↗</button></div></div>
       <div class="buddy-intro"><p class="eyebrow">A LITTLE FRIEND. A LITTLE MOMENT OF CALM.</p><h1>Hello, curious maker.</h1><p>Make a soft little friend. Take your time together.</p></div>
       <nav class="buddy-tabs" aria-label="Buddy activities">${[
         ["make", "♡", "Make a buddy"],
@@ -348,8 +300,9 @@ window.BuddyStudio = (() => {
       const button = root.querySelector("#buddySound");
       button.setAttribute("aria-pressed", String(sound));
       button.textContent = sound ? "♫ Sound on" : "♫ Sound off";
-      if (sound) tell(`Hello. I am ${name()}. We can play at your pace.`);
-      else speechSynthesis.cancel();
+      if (sound && currentStory && root.querySelector("#storyPlay")) reader.play();
+      else if (sound) tell(`Hello. I am ${name()}. We can play at your pace.`);
+      else pause();
     };
     root.querySelector("#buddyAdult").onclick = () => {
       location.hash = "home";
@@ -357,10 +310,11 @@ window.BuddyStudio = (() => {
     root.querySelector("#buddySettings").onclick = () => {
       pause();
       if (movieCancel) movieCancel();
-      if (currentStory) renderPlayer();
+
       document.querySelector("#settings").showModal();
     };
     root.querySelector("#buddyRest").onclick = rest;
+    root.querySelector("#buddyQuickRest").onclick = rest;
     if (view === "make") renderMaker();
     else if (view === "color") renderColor();
     else if (currentStory) renderPlayer();
@@ -545,92 +499,95 @@ window.BuddyStudio = (() => {
     setTimeout(() => URL.revokeObjectURL(url), 30000);
   }
   function renderStories() {
-    root.querySelector("#buddy-content").innerHTML =
-      `<p class="buddy-message">${e(name())} is ready for a little adventure. Which one feels right?</p><div class="buddy-story-grid">${stories.map((story) => `<article class="buddy-story-card">${drawing({ scene: story.theme })}<h2>${story.title}</h2><p>${story.skill}</p><button class="primary" data-story="${story.id}">▷ Watch this story</button></article>`).join("")}</div><p class="buddy-small" style="text-align:center">Short animated stories with your own buddy. You can watch, join in, or stop.</p>`;
-    root.querySelectorAll("[data-story]").forEach(
-      (button) =>
-        (button.onclick = () => {
-          if (movieUrl) {
-            URL.revokeObjectURL(movieUrl);
-            movieUrl = null;
-          }
-          currentStory = stories.find(
-            (story) => story.id === button.dataset.story,
-          );
-          sceneIndex = 0;
-          renderPlayer();
-          root
-            .querySelector(".story-player")
-            ?.scrollIntoView({ block: "start", behavior: "instant" });
-          tell(sceneText()[1]);
-        }),
-    );
+    reader.stop();
+    const filtered = stories.filter(story => selectedTopic === "all" || story.topic === selectedTopic);
+    root.querySelector("#buddy-content").innerHTML = `
+      <section class="story-library" aria-labelledby="storyLibraryTitle">
+        <div class="story-library-heading"><p class="eyebrow">MY BUDDY. MY CHOICE.</p><h2 id="storyLibraryTitle" tabindex="-1">What would you like to learn?</h2><p>${e(name())} can practice with you. Pick something you are curious about.</p></div>
+        <div class="story-topics" role="group" aria-label="Choose a story topic">${topics.map(([id, icon, label]) => `<button data-topic="${id}" aria-pressed="${selectedTopic === id}"><span aria-hidden="true">${icon}</span>${label}</button>`).join("")}</div>
+        <p class="buddy-small" role="status">${filtered.length} ${filtered.length === 1 ? "story" : "stories"} to explore. You can change your choice anytime.</p>
+        <div class="buddy-story-grid">${filtered.map(story => `<article class="buddy-story-card"><div class="story-thumbnail" aria-hidden="true">${drawing({ scene: story.theme, pose: story.poses[2] })}</div><div class="story-card-copy"><p class="story-tag">${topics.find(t => t[0] === story.topic)[2]}</p><h3>${e(story.title)}</h3><p>${e(story.skill)}</p></div><button class="primary" data-story="${story.id}" aria-label="Read ${e(story.title)}">Read this story →</button></article>`).join("")}</div>
+        <p class="buddy-small">Four little pages with your own buddy. Read together, listen, or just look. Nothing starts playing until you choose.</p>
+      </section>`;
+    root.querySelectorAll("[data-topic]").forEach(button => button.onclick = () => {
+      selectedTopic = button.dataset.topic;
+      renderStories();
+      root.querySelector(`[data-topic="${selectedTopic}"]`).focus({ preventScroll: true });
+    });
+    root.querySelectorAll("[data-story]").forEach(button => button.onclick = () => {
+      pause();
+      if (movieUrl) { URL.revokeObjectURL(movieUrl); movieUrl = null; }
+      currentStory = stories.find(story => story.id === button.dataset.story);
+      sceneIndex = 0;
+      renderPlayer();
+      focusPage();
+    });
   }
   function sceneText(index = sceneIndex) {
-    return currentStory.scenes[index].map((text) =>
-      text.replaceAll("{name}", name()),
-    );
+    return currentStory.scenes[index].map(text => text.replaceAll("{name}", name()));
+  }
+  function focusPage() {
+    root.querySelector("#storyPageTitle")?.focus({ preventScroll: true });
+    root.querySelector(".story-player")?.scrollIntoView({ block: "start", behavior: "instant" });
+  }
+  function loadReading() {
+    reader.load(sceneText()[1], { mode: readingMode, rate: document.querySelector("#speed")?.value || 0.8 });
   }
   function renderPlayer() {
     if (!currentStory || !active) return;
     const [title, caption, hint] = sceneText();
+    const last = sceneIndex === currentStory.scenes.length - 1;
     root.querySelector("#buddy-content").innerHTML =
       `<section class="story-player" aria-label="${e(currentStory.title)}">
-      <div class="story-top"><button id="backStories">← Stories</button><p class="buddy-small">${sceneIndex + 1} of 4 · Your pace</p></div>
-      <div class="story-screen"><div id="story-picture">${drawing({ scene: currentStory.theme, stage: sceneIndex, animated: playing })}</div><div class="story-caption" aria-live="polite"><h2>${e(title)}</h2><p>${e(caption)}</p></div></div>
-      <div class="story-progress" aria-hidden="true">${[0, 1, 2, 3].map((i) => `<span class="${i === sceneIndex ? "current" : ""}"></span>`).join("")}</div>
-      <div class="buddy-controls"><button id="storyPrevious" ${sceneIndex === 0 ? "disabled" : ""}>← Back</button><button class="primary" id="storyPlay">${playing ? "Ⅱ Pause" : "▷ Play gently"}</button><button id="storyNext">${sceneIndex === 3 ? "↶ Again" : "Next →"}</button></div>
+      <div class="story-top"><button id="backStories">← Choose a story</button><p class="buddy-small">Page ${sceneIndex + 1} of ${currentStory.scenes.length} · Your pace</p></div>
+      <p class="story-book-title">${e(currentStory.title)}</p>
+      <div class="story-screen"><div id="story-picture">${drawing({ scene: currentStory.theme, stage: sceneIndex, pose: currentStory.poses[sceneIndex] })}</div><div class="story-caption"><h2 id="storyPageTitle" tabindex="-1">${e(title)}</h2><p id="story-words">${window.BuddyReadAlong.words(caption).map(word => `<span data-read-word>${e(word.text)}</span>`).join(" ")}</p></div></div>
+      <div class="reading-tools"><button class="primary" id="storyPlay" aria-pressed="false">▷ Read with me</button><button id="readAgain">↶ Start this page again</button><p class="buddy-small" id="reading-status" role="status">Listen and follow the words, or read on your own.</p>
+        <details class="reading-options"><summary>Reading options</summary><label for="readingMode">Read-along style</label><select id="readingMode"><option value="words" ${readingMode === "words" ? "selected" : ""}>Word by word</option><option value="smooth" ${readingMode === "smooth" ? "selected" : ""}>Smooth sentences</option></select><p class="buddy-small">Word by word gives each word its own turn. Smooth sentences use your voice’s word highlighting when available, or highlight the sentence. Change reading speed in Comfort.</p></details>
+      </div>
+      <div class="story-progress" aria-hidden="true">${currentStory.scenes.map((_, i) => `<span class="${i === sceneIndex ? "current" : ""}"></span>`).join("")}</div>
+      <div class="buddy-controls story-page-controls"><button id="storyPrevious" ${sceneIndex === 0 ? "disabled" : ""}>← Back</button><button id="storyNext">${last ? "Choose another story →" : "Next page →"}</button></div>
       <p class="buddy-message">${e(hint)}</p>
-      <div class="movie-tools"><button id="makeMovie" ${movieBusy ? "disabled" : ""}>↓ Make a little video</button><p class="buddy-small">A 28-second animated montage of ${e(name())}, with all four scenes and captions. Saved videos are silent.</p><div id="movie-output" role="status"></div></div>
+      ${last ? `<p class="story-end">You and ${e(name())} can practice another time. Watching and listening count, too.</p>` : ""}
+      <details class="movie-tools"><summary>Make a story video</summary><button id="makeMovie" ${movieBusy ? "disabled" : ""}>↓ Make a little video</button><p class="buddy-small">A 28-second montage with all four scenes and captions. Saved videos are silent; read-along voice plays here on the page.</p><div id="movie-output" role="status"></div></details>
     </section>`;
-    root.querySelector("#backStories").onclick = () => {
+    loadReading();
+    const chooseStories = () => {
       pause();
       if (movieCancel) movieCancel();
       currentStory = null;
       renderStories();
+      root.querySelector("#storyLibraryTitle").focus({ preventScroll: true });
+      root.querySelector(".story-library").scrollIntoView({ block: "start", behavior: "instant" });
     };
+    root.querySelector("#backStories").onclick = chooseStories;
     root.querySelector("#storyPrevious").onclick = () => {
-      pause();
-      sceneIndex = Math.max(0, sceneIndex - 1);
-      renderPlayer();
-      tell(sceneText()[1]);
+      pause(); sceneIndex = Math.max(0, sceneIndex - 1); renderPlayer(); focusPage();
     };
     root.querySelector("#storyNext").onclick = () => {
-      pause();
-      sceneIndex = (sceneIndex + 1) % 4;
-      renderPlayer();
-      tell(sceneText()[1]);
+      if (last) { chooseStories(); return; }
+      pause(); sceneIndex++; renderPlayer(); focusPage();
     };
-    root.querySelector("#storyPlay").onclick = () => {
-      if (playing) {
-        pause();
-        renderPlayer();
-      } else {
-        if (sceneIndex === 3) sceneIndex = 0;
-        playing = true;
-        renderPlayer();
-        tell(sceneText()[1]);
-        scheduleNext();
+    const read = () => {
+      reader.setRate(document.querySelector("#speed")?.value || 0.8);
+      if (reader.supported) {
+        sound = true;
+        root.querySelector("#buddySound").setAttribute("aria-pressed", "true");
+        root.querySelector("#buddySound").textContent = "♫ Sound on";
       }
+      reader.play();
     };
+    root.querySelector("#storyPlay").onclick = () => reader.state === "reading" ? reader.pause() : read();
+    root.querySelector("#readAgain").onclick = () => { loadReading(); read(); };
+    root.querySelector("#readingMode").onchange = event => {
+      const resume = reader.state === "reading";
+      readingMode = event.target.value; loadReading();
+      root.querySelector("#reading-status").textContent = "Reading style changed. We can start this page again.";
+      if (resume) read();
+    };
+    if (!reader.supported) root.querySelector("#reading-status").textContent = "This browser has no reading voice. Read together with a grown-up, or explore the pictures.";
     root.querySelector("#makeMovie").onclick = makeMovie;
     if (movieUrl) showMovie(movieUrl);
-  }
-  function scheduleNext() {
-    clearTimeout(storyTimer);
-    // Slow pacing leaves room to hear captions; children can also choose Next.
-    storyTimer = setTimeout(() => {
-      if (!active || !playing) return;
-      if (sceneIndex === 3) {
-        pause();
-        renderPlayer();
-        return;
-      }
-      sceneIndex++;
-      renderPlayer();
-      tell(sceneText()[1]);
-      scheduleNext();
-    }, 12000);
   }
   function rest() {
     pause();
@@ -686,8 +643,9 @@ window.BuddyStudio = (() => {
     const currentOutput = root.querySelector("#movie-output"),
       currentButton = root.querySelector("#makeMovie");
     currentButton.disabled = true;
+    root.querySelector(".movie-tools").open = true;
     movieBusy = true;
-    ["#storyPrevious", "#storyNext", "#storyPlay"].forEach((selector) => {
+    ["#storyPrevious", "#storyNext", "#storyPlay", "#readAgain", "#readingMode"].forEach((selector) => {
       root.querySelector(selector).disabled = true;
     });
     currentOutput.innerHTML =
@@ -706,6 +664,8 @@ window.BuddyStudio = (() => {
         root.querySelector("#makeMovie").disabled = false;
       if (active && root.querySelector("#storyPlay")) {
         root.querySelector("#storyPlay").disabled = false;
+        root.querySelector("#readAgain").disabled = false;
+        root.querySelector("#readingMode").disabled = false;
         root.querySelector("#storyNext").disabled = false;
         root.querySelector("#storyPrevious").disabled = sceneIndex === 0;
       }
@@ -730,7 +690,7 @@ window.BuddyStudio = (() => {
           (_, i) =>
             new Promise((resolve, reject) => {
               const url = URL.createObjectURL(
-                new Blob([drawing({ scene: story.theme, stage: i })], {
+                new Blob([drawing({ scene: story.theme, stage: i, pose: story.poses[i] })], {
                   type: "image/svg+xml",
                 }),
               );
@@ -750,7 +710,7 @@ window.BuddyStudio = (() => {
       if (canceled) return;
       const canvas = document.createElement("canvas");
       canvas.width = 960;
-      canvas.height = 900;
+      canvas.height = 1040;
       const context = canvas.getContext("2d");
       // Canvas cannot resolve CSS variables: snapshot the same accessible palette.
       const theme = getComputedStyle(document.documentElement);
@@ -812,7 +772,7 @@ window.BuddyStudio = (() => {
           index = Math.min(3, Math.floor(elapsed / 7)),
           within = elapsed % 7;
         context.fillStyle = videoPalette["bg-primary"];
-        context.fillRect(0, 0, 960, 900);
+        context.fillRect(0, 0, 960, 1040);
         context.save();
         context.beginPath();
         context.rect(0, 0, 960, 660);
@@ -827,9 +787,9 @@ window.BuddyStudio = (() => {
         context.font = "18px sans-serif";
         context.fillStyle = videoPalette["text-muted"];
         context.fillText(
-          `${index + 1} / 4  ·  SNOW DAY Learning Lab`,
+          `${index + 1} / 4  ·  Kindorill · SNOW DAY Learning Lab`,
           480,
-          878,
+          1018,
         );
         const second = Math.floor(elapsed);
         if (second !== lastSecond) {

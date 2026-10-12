@@ -7,8 +7,8 @@ body:not(.child-view) p { line-height: 1.75; }
 body:not(.child-view) .eyebrow { font-size: .6875rem; line-height: 1.6; letter-spacing: .12em; }
 body:not(.child-view) .card { box-shadow: none; border-radius: 12px; }
 aside { padding: 27px 18px; }
-.brand { font-size: 1.05rem; letter-spacing: .13em; }
-.brand small { font-family: inherit; letter-spacing: .22em; }
+.brand { font-family: system-ui, sans-serif; font-size: 1.25rem; letter-spacing: -.025em; }
+.brand small { font-family: inherit; font-size: .7rem; letter-spacing: .01em; margin: 8px 0 0; }
 .workspace { margin: 32px 0 24px; padding: 14px 12px; font-size: .78rem; line-height: 1.5; }
 .workspace small { margin: 5px 0 0; font-size: .7rem; }
 aside nav { gap: 4px; }
@@ -26,6 +26,9 @@ footer small { font-size: inherit; }
 .lab-hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; align-items: center; padding: 5px 0 38px; }
 body:not(.child-view) .lab-hero h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 3.8vw, 4rem); font-weight: 400; letter-spacing: -.04em; }
 .lab-hero h1 em { color: var(--text-heading); font-weight: 400; }
+.lab-hero .lab-byline { margin: 10px 0 22px; font-size: .85rem; color: var(--text-muted); }
+.lab-hero .kindorill-tagline { font: 400 clamp(1.6rem, 2.5vw, 2.6rem)/1.3 Georgia, serif; margin: 0; }
+.kindorill-tagline em { color: var(--text-heading); }
 .hero-lead { font-size: 1rem; max-width: 38em; margin-top: 22px; }
 .lab-motto { font-size: .85rem; font-weight: 600; color: var(--text-primary); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }

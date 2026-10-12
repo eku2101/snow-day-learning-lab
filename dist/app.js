@@ -133,9 +133,9 @@ function buddyFeature() {
     <div class="buddy-feature-copy">
       <span class="badge">NEW · FOR LITTLE MAKERS</span>
       <h2 id="buddyFeatureTitle">Meet the Buddy Studio.</h2>
-      <p>Create a stuffed-animal friend, make coloring pages, and bring your buddy to life in gentle stories about calming your body.</p>
+      <p>Create a stuffed-animal friend, make coloring pages, and choose stories about feelings, sharing, safe hands, and asking for help. Read along as each spoken word lights up.</p>
       <ul class="buddy-feature-tags" aria-label="Buddy Studio activities">
-        <li>♡ Make a buddy</li><li>✎ Color & print</li><li>▷ Calming stories & videos</li>
+        <li>♡ Make a buddy</li><li>✎ Color & print</li><li>▷ SEL stories & read-along</li>
       </ul>
       <a class="buddy-launch" href="#companion">Open Buddy Studio <span aria-hidden="true">→</span></a>
       <p class="buddy-feature-note">Big buttons. Optional sound. A quiet moment whenever you need one.</p>
