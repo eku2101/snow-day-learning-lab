@@ -1,0 +1,111 @@
+/* Calm visual layer shared by research, making, and learner views. */
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("fonts/AtkinsonHyperlegibleNext.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+body, .brand, .buddy-wordmark, button, input, select, textarea {
+  font-family: "Atkinson Hyperlegible Next", system-ui, "Segoe UI", sans-serif;
+}
+body, body:not(.child-view) { font-size: 1.125rem; }
+body:not(.child-view) p { line-height: 1.65; }
+h1, h2, h3, h4 { font-family: inherit; }
+body:not(.child-view) h1, body:not(.child-view) h2 { letter-spacing: -.02em; }
+body:not(.child-view) .lab-hero h1, .lab-hero .community-tagline { font-family: Georgia, serif; }
+body:not(.child-view) .eyebrow, .eyebrow { font-size: .875rem; letter-spacing: .065em; }
+button, .lab-link-button { min-height: 48px; font-size: 1.125rem; line-height: 1.35; }
+.badge, .source-note, .library-note, .meta-footer, .buddy-small, .tp-small { font-size: .95rem; }
+aside nav button { font-size: 1rem; min-height: 48px; }
+aside nav button.active { color: var(--text-primary); background: var(--bg-surface); border-inline-start: 4px solid var(--brand-teal); font-weight: 700; }
+.brand { font-size: 1.25rem; }
+.brand small, .buddy-wordmark small { font-size: .875rem; }
+.workspace, .workspace small { font-size: .875rem; }
+.card, .tp-panel, .tp-guide { border-radius: var(--radius-card); }
+.reading-word { background: var(--reading-highlight); color: var(--reading-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .18em; box-shadow: none; }
+.buddy-app .story-caption #story-words, .tp-app .tp-read-words, .rp-read-words { font-size: 1.5rem; line-height: 1.75; }
+.story-caption { max-width: 44rem; margin-inline: auto; }
+.story-caption h2 { font-size: 1.6rem; }
+.buddy-app button { font-size: 1.125rem; min-height: 54px; }
+.buddy-intro h1 { font-size: clamp(2rem, 4vw, 3rem); }
+.buddy-intro p { font-size: 1.125rem; }
+.learner-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; margin: 1.5rem 0; }
+.learner-path a { display: flex; align-items: center; justify-content: center; gap: .7rem; min-height: 76px; padding: 1rem; border: 1px solid var(--control-border); border-radius: var(--radius-card); text-decoration: none; color: var(--text-primary); background: var(--bg-surface); font-size: 1.125rem; font-weight: 650; line-height: 1.3; }
+.learner-path a svg { flex-shrink: 0; color: var(--text-heading); }
+.learner-path a:hover { background: var(--soft-mint); }
+.learner-path a[aria-current] { border: 2px solid var(--accent-lavender); background: var(--surface-lavender); }
+.learner-current { margin-inline-start: auto; font-weight: 800; }
+.learner-path a:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
+.buddy-app .learner-path { max-width: 1000px; margin: 0 auto 1rem; }
+.buddy-secondary { display: flex; justify-content: center; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.buddy-secondary p { margin: 0; color: var(--text-muted); font-size: .95rem; }
+.buddy-secondary button { min-height: 48px; padding: .65rem 1rem; }
+.learner-welcome { border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; margin-bottom: 2rem; }
+.learner-welcome h2 { margin: .25rem 0; }
+.learner-welcome > p { margin-top: .5rem; }
+.learner-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+.learner-header a { font-size: 1rem; }
+.learner-header > div { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.child-view .tp-app { max-width: 1180px; padding: 2rem; margin: auto; }
+.child-view .tp-heading h1 { font-size: clamp(2rem, 4vw, 3rem); }
+.child-view .tp-panel h2 { font-size: 1.8rem; line-height: 1.3; }
+.child-view .tp-scene-intro > p, .child-view .tp-script p { font-size: 1.5rem; line-height: 1.6; }
+.child-view .tp-permission { font-size: 1.125rem; }
+.tp-heading { margin-bottom: 1rem; }
+.tp-heading h1 { max-width: 22ch; margin-bottom: .5rem; }
+.tp-heading p { margin-block: .5rem; }
+.tp-permission { padding: 1rem 1.25rem; line-height: 1.6; }
+.tp-toolbar { margin: 1rem 0; }
+.tp-setup-notes { color: var(--text-muted); font-size: .95rem; }
+.tp-customize { border-bottom: 1px solid var(--border-subtle); padding-bottom: .75rem; }
+.tp-customize summary { color: var(--text-link); }
+.tp-customize .tp-setup { margin-top: .75rem; }
+.child-view .tp-heading .eyebrow { display: none; }
+.tp-scene-grid { gap: 1.2rem; }
+.tp-scene { display: flex; flex-direction: column; align-items: stretch; padding: 0; overflow: hidden; position: relative; }
+.tp-scene .tp-card-art { background: var(--soft-mint); display: block; width: 100%; }
+.tp-card-art svg { display: block; width: 100%; height: auto; max-height: 220px; }
+.tp-scene .tp-card-copy { display: block; padding: 1rem 1.2rem; }
+.tp-scene strong { font-size: 1.3rem; line-height: 1.25; }
+.tp-scene small { font-size: 1rem; }
+.tp-scene > span:last-child { margin: 0; }
+.tp-scene:hover { border-color: var(--brand-teal); }
+.tp-scene-intro { display: block; }
+.tp-scene-intro .tp-story-art { max-width: 100%; margin: 1.1rem 0; overflow: hidden; border-radius: var(--radius-card); background: var(--soft-mint); }
+.tp-story-art svg { display: block; width: 100%; height: auto; max-height: 330px; }
+.tp-scene-intro > p { max-width: 58ch; font-size: 1.25rem; }
+.tp-layout { grid-template-columns: minmax(0, 1fr) minmax(250px, .44fr); }
+.tp-guide { font-size: 1rem; }
+.tp-guide .tp-quote { background: var(--bg-surface); }
+.tp-plans button { min-height: 54px; font-size: 1.125rem; }
+.tp-plans button[aria-pressed="true"] span::before { content: "✓ "; }
+.studio-illustration, .lesson-visual.studio-illustration { display: block; height: auto; min-height: 0; width: 100%; padding: 0; overflow: hidden; border-radius: var(--radius-card); background: var(--soft-mint); }
+.studio-illustration svg { display: block; width: 100%; height: auto; max-height: 270px; }
+.lab-hero-art { padding: 0; display: block; }
+.lab-hero-art svg { width: 100%; height: auto; display: block; }
+.lab-hero-art figcaption { padding: .9rem 1.1rem; font-size: 1rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); }
+.lab-hero { grid-template-columns: 1.08fr 1fr; gap: 2rem; }
+.lab-hero figure { margin: 0; }
+.lab-hero .hero-lead { font-size: 1.125rem; }
+.lab-hero .family-invitation { font-size: 1rem; }
+.buddy-feature-art svg { display: block; width: 100%; height: auto; }
+.buddy-feature-art { padding: .75rem; }
+@media (max-width: 1200px) { .tp-layout { grid-template-columns: 1fr; } .cards.featured-lessons, #lessons.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1000px) { .lab-hero { grid-template-columns: 1fr; } .lab-hero-art { max-width: 640px; width: 100%; margin-inline: auto !important; } }
+@media (max-width: 700px) {
+  .learner-path { gap: .5rem; }
+  .learner-path a { flex-direction: column; padding: .8rem .4rem; gap: .45rem; font-size: 1rem; text-align: center; min-height: 108px; }
+  .learner-current { margin: 0; }
+  .child-view .tp-app { padding: 1rem; }
+  .buddy-top { margin-bottom: 1.4rem; }
+  .buddy-app .buddy-top-actions button { font-size: 1rem; padding: .65rem .8rem; min-height: 48px; }
+  .buddy-app .story-caption #story-words { font-size: 1.4rem; }
+  .tp-card-art svg { max-height: 210px; }
+  .cards.featured-lessons, #lessons.cards { grid-template-columns: 1fr; }
+  .tp-progress li { font-size: 1rem; }
+  .tp-toolbar { align-items: stretch; }
+  aside nav button { font-size: .95rem; }
+  .learner-header .buddy-wordmark { font-size: 1.125rem; }
+}
+@media print { .learner-path, .learner-header { display: none; } }

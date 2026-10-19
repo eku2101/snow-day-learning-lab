@@ -252,6 +252,8 @@ window.BuddyStudio = (() => {
   }
 
   function mount(target) {
+    const requested = new URLSearchParams(location.hash.split("?")[1] || "").get("view");
+    if (["make", "stories", "color"].includes(requested)) { view = requested; currentStory = null; }
     root = target;
     active = true;
     sound = false;
@@ -262,33 +264,27 @@ window.BuddyStudio = (() => {
     pause();
     if (movieCancel) movieCancel();
     view = next;
+    history.replaceState(null, "", "#companion?view=" + next);
     currentStory = null;
     render();
     root.querySelector("#buddy-content")?.focus({ preventScroll: true });
     root
-      .querySelector(".buddy-tabs")
+      .querySelector(".learner-path")
       ?.scrollIntoView({ block: "start", behavior: "instant" });
   }
   function render() {
     root.innerHTML = `<div class="buddy-app">
       <div class="buddy-top"><span class="buddy-wordmark">✳ Everyday Feelings,<br>Shared Stories <small>SNOW DAY Learning Lab</small></span><div class="buddy-top-actions"><button id="buddySound" aria-pressed="${sound}">${sound ? "♫ Sound on" : "♫ Sound off"}</button><button id="buddySettings">⚙ Comfort</button><button id="buddyQuickRest">☁ Quiet moment</button><button id="buddyAdult">Grown-up view ↗</button></div></div>
       <div class="buddy-intro"><p class="eyebrow">A LITTLE FRIEND. A LITTLE MOMENT OF CALM.</p><h1>Hello, curious maker.</h1><p>Make a soft little friend. Take your time together.</p></div>
-      <nav class="buddy-tabs" aria-label="Buddy activities">${[
-        ["make", "♡", "Make a buddy"],
-        ["color", "✎", "Color together"],
-        ["stories", "▷", "Story time"],
-      ]
-        .map(
-          ([id, icon, label]) =>
-            `<button data-view="${id}" aria-pressed="${view === id}"><span class="activity-icon" aria-hidden="true">${icon}</span>${label}</button>`,
-        )
-        .join("")}</nav>
+      ${window.LearnerNav.markup(view === "stories" ? "stories" : "make")}
+      <div class="buddy-secondary"><button data-view="color" aria-pressed="${view === "color"}">✎ Color my buddy</button><p>Make a picture to keep or print.</p></div>
       <div id="buddy-content" tabindex="-1"></div>
       <div class="buddy-footer"><p class="buddy-small">Your buddy stays on this device. There is no wrong way to play.</p><button id="buddyRest">☁ I need a quiet moment</button></div>
     </div>`;
     root
       .querySelectorAll("[data-view]")
       .forEach((button) => (button.onclick = () => go(button.dataset.view)));
+    root.querySelectorAll("[data-buddy-view]").forEach(link => link.onclick = event => { event.preventDefault(); go(link.dataset.buddyView); });
     root.querySelector("#buddySound").onclick = () => {
       if (!("speechSynthesis" in window)) {
         status(
@@ -548,7 +544,7 @@ window.BuddyStudio = (() => {
       <div class="story-progress" aria-hidden="true">${currentStory.scenes.map((_, i) => `<span class="${i === sceneIndex ? "current" : ""}"></span>`).join("")}</div>
       <div class="buddy-controls story-page-controls"><button id="storyPrevious" ${sceneIndex === 0 ? "disabled" : ""}>← Back</button><button id="storyNext">${last ? "Choose another story →" : "Next page →"}</button></div>
       <p class="buddy-message">${e(hint)}</p>
-      ${last ? `<p class="story-end">You and ${e(name())} can practice another time. Watching and listening count, too.</p><p><a class="lab-link-button" href="#together?scene=${window.TogetherData.storyScenes[currentStory.id] || "sharing"}&band=younger&cast=buddy">Try a little role-play with ${e(name())} →</a></p>` : ""}
+      ${last ? `<p class="story-end">You and ${e(name())} can practice another time. Watching and listening count, too.</p><p><a class="lab-link-button" href="#together?scene=${window.TogetherData.storyScenes[currentStory.id] || "sharing"}&band=younger&cast=buddy&mode=learner">Try a little role-play with ${e(name())} →</a></p>` : ""}
       <details class="movie-tools"><summary>Make a story video</summary><button id="makeMovie" ${movieBusy ? "disabled" : ""}>↓ Make a little video</button><p class="buddy-small">A 28-second montage with all four scenes and captions. Saved videos are silent; read-along voice plays here on the page.</p><div id="movie-output" role="status"></div></details>
     </section>`;
     loadReading();
@@ -813,5 +809,5 @@ window.BuddyStudio = (() => {
           "Video saving did not work this time. Your story is ready to watch above.";
     }
   }
-  return { mount, stop, character: () => ({ name: name(), svg: drawing({ scene: "studio", thumbnail: true }) }) };
+  return { mount, stop, character: (pose) => ({ name: name(), svg: drawing({ scene: "studio", thumbnail: true, pose }) }) };
 })();

@@ -39,6 +39,14 @@ Open **http://127.0.0.1:4173/**. Stop the preview with **Ctrl+C**. Cloning requi
 
 If you already have a checkout, run `node preview.cjs` from its root. The preview server serves `dist/` and listens only on the local computer.
 
+## Visual design and reading
+
+The interface uses locally hosted **Atkinson Hyperlegible Next** (variable upright font, SIL Open Font License included in dist/fonts/OFL.txt) with system fallbacks. Adult body text starts at 18px; story text is approximately 22–24px before the learner’s chosen scaling. Georgia remains on the adult home hero.
+
+Teal, mint, off-white, and charcoal provide the shared palette. Lavender marks selected choices, with outlines and checkmarks; read-along uses pale gold with dark text and an underline in all three themes. Original SVG illustrations show making materials, fictional learners, and a family/community activity; the custom buddy remains personalized across scenes.
+
+The shared learner navigation offers **Make a Buddy**, **Read a Story**, and **Practice Together**. Coloring remains a separate button inside Buddy Studio. Practice Together also has a simpler learner view with Comfort and a return to the adult tools. Both navigation layouts preserve the same activities and privacy behavior.
+
 ## Learning experiences
 
 ### Standards-aligned lesson plans
@@ -91,7 +99,7 @@ Open **Sensory settings** from the header. Changes apply immediately:
 
 The interface uses semantic page landmarks, labeled controls, visible focus styles, a skip link, and responsive layouts. Cards share a 12px corner radius. Primary buttons use slate teal with white text and lavender hover states.
 
-The palette test checks 66 foreground/background text pairs across all three themes against a 4.5:1 contrast threshold. This is a focused contrast check, not a full WCAG conformance audit. Animal artwork and user-selected paint colors have independent palettes.
+The palette test checks 69 foreground/background text pairs across all three themes against a 4.5:1 contrast threshold. This is a focused contrast check, not a full WCAG conformance audit. Animal artwork and user-selected paint colors have independent palettes.
 
 ## Data and privacy
 
@@ -151,6 +159,9 @@ snow-day-learning-lab/
 │   ├── together-data.js   # Original scenarios, partner guidance, transient session model
 │   ├── together.js        # Choice, rehearsal, reflection, and local-voice narration
 │   ├── research-notes.js  # Resource comparison and evidence with limitations
+│   ├── studio-art.js      # Original family, learner, and lesson illustrations
+│   ├── learner-nav.js     # Shared three-choice learner navigation
+│   ├── fonts/            # Locally hosted font and its SIL Open Font License
 │   └── *.css              # Layouts, design tokens, themes, and accessibility styles
 ├── tests/                 # Node.js behavior and contrast checks
 ├── preview.cjs            # Local static preview server
@@ -170,6 +181,7 @@ node tests/read-along.cjs
 node tests/roleplay.cjs
 node tests/together.cjs
 node tests/palette.cjs
+node tests/design.cjs
 ```
 
 These cover planning-guide matching, story rendering contracts, speech cancellation and highlighting, local-only voice handling, role-play writing scaffolds, and theme contrast. Check an individual JavaScript file's syntax with `node --check dist/app.js` or the relevant file path.
@@ -184,4 +196,4 @@ The public site is hosted with Sites. `.openai/hosting.json` identifies the exis
 
 ## License
 
-No license file is currently included in this repository. Contact the project owner about permission to reuse or redistribute the code and original content.
+No project-wide license is currently included. Contact the project owner about permission to reuse or redistribute the code and original content. Atkinson Hyperlegible Next is licensed separately under the SIL Open Font License in `dist/fonts/OFL.txt`.

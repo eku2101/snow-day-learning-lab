@@ -37,6 +37,7 @@ for (const mode of ['light', 'dark', 'neutral']) {
     for (const bg of ['--bg-primary', '--bg-surface', '--soft-mint', '--surface-lavender', '--surface-nudge']) check(fg, bg);
   check('--text-on-accent', '--brand-teal');
   check('--text-on-accent', '--accent-lavender');
+  check('--reading-ink', '--reading-highlight');
 }
 for (const name of fs.readdirSync('dist').filter(n => n.endsWith('.css') && n !== 'design-system.css')) {
   const component = fs.readFileSync('dist/' + name, 'utf8');

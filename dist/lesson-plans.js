@@ -240,7 +240,7 @@ function renderLessonLibrary() {
       visible
         .map(
           (plan) => `<article class="card lesson-card">
-      <div class="art" aria-hidden="true">${plan.icon}</div>
+      <div class="studio-illustration">${window.StudioArt.lesson(plan.id)}</div>
       <p class="eyebrow">${plan.subject}</p><h2>${plan.title}</h2><p>${plan.summary}</p>
       <div class="tags">${plan.tags.map((tag) => `<span class="badge">${tag}</span>`).join("")}</div>
       <p class="standards-meta">${plan.standards.map((standard) => standard[0]).join(" · ")}</p>
@@ -270,7 +270,7 @@ function openLesson(id) {
   dialog.setAttribute("aria-labelledby", "lessonTitle");
   dialog.innerHTML = `<form method="dialog"><button class="close" aria-label="Close lesson plan">×</button></form>
     <article><p class="eyebrow">${plan.band} · ${plan.subject} · ${plan.duration}</p>
-    <h2 id="lessonTitle">${plan.title}</h2><p>${plan.summary}</p>
+    <h2 id="lessonTitle">${plan.title}</h2><div class="studio-illustration">${window.StudioArt.lesson(plan.id)}</div><p>${plan.summary}</p>
     <section><h3>Standards alignment</h3><ul>${plan.standards.map(([code, description, url]) => `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${code} ↗</a> — ${description}</li>`).join("")}</ul></section>
     <section><h3>Learning intentions</h3>${list(plan.objectives)}</section>
     <section class="lesson-sel"><h3>SEL in the making</h3><p>${plan.sel}</p></section>
@@ -309,7 +309,7 @@ function studio() {
     <div class="studio-grid"><section class="card">
       <label for="activeLesson">Today’s invitation</label>
       <select id="activeLesson">${lessonPlans.map((item) => `<option value="${item.id}" ${item.id === plan.id ? "selected" : ""}>${item.title}</option>`).join("")}</select>
-      <div class="studio-plan"><span class="badge">${plan.band} · ${plan.subject}</span><h2>${plan.title}</h2><p>${plan.summary}</p><button id="studioPlan">Read full lesson</button></div>
+      <div class="studio-plan"><div class="studio-illustration">${window.StudioArt.lesson(plan.id)}</div><span class="badge">${plan.band} · ${plan.subject}</span><h2>${plan.title}</h2><p>${plan.summary}</p><button id="studioPlan">Read full lesson</button></div>
       <h3>Your visual schedule</h3><div class="steps" aria-label="Making stages">${["Choose & plan", "Make & try", "Notice & reflect"].map((label, index) => `<button data-stage="${index}" class="${record.stage === index ? "current" : ""}" aria-pressed="${record.stage === index}">${index + 1}. ${label}</button>`).join("")}</div>
       <p id="stagePrompt" role="status"></p>
       <label for="makerNotes">Ideas, sketches to describe, or things you noticed</label><textarea id="makerNotes" placeholder="An idea I tried… A change I might make…">${escape(record.notes)}</textarea>

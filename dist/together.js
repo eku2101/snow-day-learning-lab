@@ -21,16 +21,24 @@ window.TogetherStudio = (() => {
     });
     document.addEventListener("visibilitychange", visibility); render();
   }
+  const learnerMode = () => document.body.classList.contains("child-view");
+  const sceneArt = id => {
+    const pose = id === "space" ? "pause" : undefined;
+    const buddy = state().cast === "buddy" ? window.BuddyStudio.character(pose) : null;
+    return window.StudioArt.scene(id, buddy ? { buddySvg: buddy.svg, name: buddy.name } : {});
+  };
   function render(focus = false) {
     reader.stop();
-    root.innerHTML = `<div class="tp-app"><div class="tp-heading"><div><p class="eyebrow">PRACTICE TOGETHER · YOUR PACE, YOUR WORDS</p><h1>Little scenes. Real connections.</h1><p>Try a choice. Hear another point of view. Bring your own ways of caring.</p></div><span class="tp-mark" aria-hidden="true">○ ○</span></div>
-      <p class="tp-permission">Use a made-up situation. Write, draw off-screen, sign, use AAC, act, or pass. No one has to share a personal story or look someone in the eyes.</p>
-      <div class="tp-toolbar">${state().scene ? '<button id="tpChooseAgain">← Change activity</button>' : ''}<button id="tpRest">Take a pause</button><a href="#research">Research & comparisons</a></div>
+    root.innerHTML = `<div class="tp-app">${learnerMode() ? `<div class="learner-header"><span class="buddy-wordmark">Everyday Feelings, Shared Stories<small>SNOW DAY Learning Lab</small></span><div><button id="tpComfort">⚙ Comfort</button><a href="#home">Grown-up view ↗</a></div></div>${window.LearnerNav.markup("together")}` : ""}<div class="tp-heading"><div><p class="eyebrow">PRACTICE TOGETHER · YOUR PACE, YOUR WORDS</p><h1>Little scenes. Real connections.</h1><p>Try a choice. Hear another point of view. Bring your own ways of caring.</p></div></div>
+      <p class="tp-permission">Try a made-up scene, in your own way. Write, draw, sign, use AAC, act, or pass.</p>
+      <div class="tp-toolbar">${state().scene ? '<button id="tpChooseAgain">← Change activity</button>' : ''}<button id="tpRest">Take a pause</button>${!learnerMode() && !state().scene ? '<a href="#together?mode=learner&band=younger&cast=buddy">Open the simpler learner view →</a>' : ""}</div>
       ${state().scene ? practice() : chooser()}
       <details class="tp-audio"><summary>Optional read-along</summary><p>Read the current scene and example lines with an on-device voice. Sound starts when you choose. Your own writing is not included.</p><div class="tp-actions"><button id="tpRead">Read this part</button><button id="tpPauseAudio" disabled>Pause reading</button></div><p id="tpVoiceStatus" role="status">Word-by-word highlighting. Speed follows Sensory settings. If an on-device voice is unavailable, keep reading on screen.</p><p id="tpReadWords" class="tp-read-words"></p></details>
       <div class="tp-source"><p>Research-informed practice, not a tested intervention. These original scenes use ideas from guided role-play, perspective-taking, and everyday practice. <a href="#research">See sources and evidence limits.</a></p><p>Your writing stays only in this view. Leaving or reloading clears it; nothing is sent to a partner or saved by this activity.</p></div>
       <dialog id="tpPauseDialog" aria-labelledby="tpPauseTitle"><h2 id="tpPauseTitle">There is time.</h2><p>Rest, look away, stretch if you want, or sit with someone you trust. There is no feeling you have to reach.</p><button id="tpReturn" class="primary">Return when I’m ready</button></dialog>
       <dialog id="tpClearDialog" aria-labelledby="tpClearTitle"><h2 id="tpClearTitle">Finish this practice?</h2><p>Your writing will be cleared. It has not been saved or sent.</p><div class="tp-actions"><button id="tpKeep">Keep practicing</button><button id="tpClear" class="primary">Clear & choose another</button></div></dialog></div>`;
+    const comfort = root.querySelector("#tpComfort");
+    if (comfort) comfort.onclick = () => { pause(); document.querySelector("#settings").showModal(); };
     root.querySelector("#tpRest").onclick = () => { pause(); root.querySelector("#tpPauseDialog").showModal(); };
     root.querySelector("#tpReturn").onclick = () => root.querySelector("#tpPauseDialog").close();
     root.querySelector("#tpKeep").onclick = () => root.querySelector("#tpClearDialog").close();
@@ -41,16 +49,18 @@ window.TogetherStudio = (() => {
     if (focus) { root.querySelector("#tpTitle").focus({ preventScroll: true }); root.querySelector("#tpTitle").scrollIntoView({ block: "start", behavior: "instant" }); }
   }
   function chooser() {
-    return `<section class="tp-panel" aria-labelledby="tpTitle"><p class="eyebrow">MAKE IT FIT YOU</p><h2 id="tpTitle" tabindex="-1">Choose a way to practice.</h2><div class="tp-setup">
+    return `<section class="tp-panel" aria-labelledby="tpTitle"><p class="eyebrow">MAKE IT FIT YOU</p><h2 id="tpTitle" tabindex="-1">What would you like to try?</h2><details class="tp-customize" ${learnerMode() ? "" : "open"}><summary>Make it fit me · words, characters & partner</summary><div class="tp-setup">
       <label>Words that work for me<select id="tpBand"><option value="younger" ${state().band === "younger" ? "selected" : ""}>Short & simple · younger learners</option><option value="older" ${state().band === "older" ? "selected" : ""}>More detail · older learners</option></select></label>
       <label>Characters<select id="tpCast"><option value="people" ${state().cast === "people" ? "selected" : ""}>Fictional learners · Kai & Remi</option><option value="buddy" ${state().cast === "buddy" ? "selected" : ""}>My buddy & Robin</option></select></label>
       <label>Practice with<select id="tpPartner">${data.partners.map(p => `<option value="${p.id}" ${p.id === state().partner ? "selected" : ""}>${p.label}</option>`).join("")}</select></label>
       <label>Imagine the scene<select id="tpPlace">${[["home", "At home"], ["school", "At school"], ["community", "In my community"]].map(([id, label]) => `<option value="${id}" ${id === state().place ? "selected" : ""}>${label}</option>`).join("")}</select></label></div>
-      <p>Choose any wording and characters you like. These are reading choices, not age rules.</p><div class="tp-scene-grid">${data.scenes.map(s => `<button class="tp-scene" data-tp-scene="${s.id}"><span class="tp-icon" aria-hidden="true">${s.icon}</span><span><strong>${s.title}</strong><small>${s.skill}</small></span><span aria-hidden="true">→</span></button>`).join("")}</div></section>`;
+      <p class="tp-setup-notes">Choose the words and characters that work for you.</p></details><div class="tp-scene-grid">${activityCards()}</div></section>`;
   }
+  function activityCards() { return data.scenes.map(s => `<button class="tp-scene" data-tp-scene="${s.id}"><span class="tp-card-art" aria-hidden="true">${sceneArt(s.id)}</span><span class="tp-card-copy"><strong>${s.title}</strong><small>${s.skill} →</small></span></button>`).join(""); }
+  function bindCards() { root.querySelectorAll("[data-tp-scene]").forEach(button => button.onclick = () => { session.chooseScene(button.dataset.tpScene); render(true); }); }
   function bindChooser() {
-    for (const key of ["band", "cast", "partner", "place"]) root.querySelector(`#tp${key[0].toUpperCase() + key.slice(1)}`).onchange = event => { state()[key] = event.target.value; };
-    root.querySelectorAll("[data-tp-scene]").forEach(button => button.onclick = () => { session.chooseScene(button.dataset.tpScene); render(true); });
+    for (const key of ["band", "cast", "partner", "place"]) root.querySelector(`#tp${key[0].toUpperCase() + key.slice(1)}`).onchange = event => { state()[key] = event.target.value; if (key === "cast") { root.querySelector(".tp-scene-grid").innerHTML = activityCards(); bindCards(); } };
+    bindCards();
   }
   function practice() {
     const s = data.sceneFor(state().scene), p = data.planFor(s.id, state().plan), guide = data.partners.find(p => p.id === state().partner);
@@ -60,7 +70,7 @@ window.TogetherStudio = (() => {
   }
   function explore(s, p) {
     const [a, b] = names();
-    return `<p class="eyebrow">A MADE-UP SCENE</p><h2 id="tpTitle" tabindex="-1">${s.title}</h2><div class="tp-scene-intro">${state().cast === "buddy" ? `<div class="tp-buddy-art">${window.BuddyStudio.character().svg}</div>` : '<div class="tp-people" aria-hidden="true"><span>K</span><span>R</span></div>'}<p>${e(wording(state().band === "younger" ? s.young : s.older))}</p></div>
+    return `<p class="eyebrow">A MADE-UP SCENE</p><h2 id="tpTitle" tabindex="-1">${s.title}</h2><div class="tp-scene-intro"><div class="tp-story-art">${sceneArt(s.id)}</div><p>${e(wording(state().band === "younger" ? s.young : s.older))}</p></div>
       <p class="tp-small">These are the characters’ imagined thoughts. In real life, ask someone what they need.</p><div class="tp-perspectives"><div><strong>${e(a)}</strong><p>“${s.a}”</p></div><div><strong>${e(b)}</strong><p>“${s.b}”</p></div></div>
       <fieldset class="tp-plans"><legend>What could they try?</legend><p>Several plans could help. Choose one to explore.</p>${s.plans.map(plan => `<button data-tp-plan="${plan.id}" aria-pressed="${plan.id === state().plan}">${plan.title}<span aria-hidden="true">→</span></button>`).join("")}</fieldset>
       <div id="tpOutcome" class="tp-outcome" role="status">${p ? `<strong>One possible outcome</strong><p>${p.outcome}</p><p>${p.question}</p><small>Try another choice to compare. No points or right-answer labels.</small>` : '<p>A possible outcome will appear when you choose a plan.</p>'}</div>`;

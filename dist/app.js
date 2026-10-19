@@ -112,7 +112,8 @@ function render() {
   window.BuddyStudio?.stop();
   window.RoleplayStudio?.stop();
   window.TogetherStudio?.stop();
-  document.body.classList.toggle("child-view", tab === "companion");
+  const learnerMode = tab === "companion" || (tab === "together" && new URLSearchParams(location.hash.split("?")[1] || "").get("mode") === "learner");
+  document.body.classList.toggle("child-view", learnerMode);
   document.body.classList.toggle("home-view", tab === "home");
   document.querySelectorAll("aside nav button").forEach((b) => {
     b.classList.toggle("active", b.dataset.tab === tab);
@@ -135,7 +136,7 @@ function roleplay() { window.RoleplayStudio.mount(main); }
 function together() { window.TogetherStudio.mount(main); }
 function buddyFeature() {
   return `<section class="buddy-feature" aria-labelledby="buddyFeatureTitle">
-    <div class="buddy-feature-art" aria-hidden="true">🧸</div>
+    <div class="buddy-feature-art">${window.BuddyStudio.character().svg}</div>
     <div class="buddy-feature-copy">
       <span class="badge">NEW · FOR LITTLE MAKERS</span>
       <h2 id="buddyFeatureTitle">Meet the Buddy Studio.</h2>

@@ -22,6 +22,8 @@
   --shadow-color: #2B303A0D;
   --dialog-backdrop: #2B303A66;
   --radius-card: 12px;
+  --reading-highlight: #FFF0C2;
+  --reading-ink: #2B303A;
   color-scheme: light;
 }
 
