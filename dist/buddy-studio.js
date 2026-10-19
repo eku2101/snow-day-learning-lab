@@ -548,7 +548,7 @@ window.BuddyStudio = (() => {
       <div class="story-progress" aria-hidden="true">${currentStory.scenes.map((_, i) => `<span class="${i === sceneIndex ? "current" : ""}"></span>`).join("")}</div>
       <div class="buddy-controls story-page-controls"><button id="storyPrevious" ${sceneIndex === 0 ? "disabled" : ""}>← Back</button><button id="storyNext">${last ? "Choose another story →" : "Next page →"}</button></div>
       <p class="buddy-message">${e(hint)}</p>
-      ${last ? `<p class="story-end">You and ${e(name())} can practice another time. Watching and listening count, too.</p>` : ""}
+      ${last ? `<p class="story-end">You and ${e(name())} can practice another time. Watching and listening count, too.</p><p><a class="lab-link-button" href="#together?scene=${window.TogetherData.storyScenes[currentStory.id] || "sharing"}&band=younger&cast=buddy">Try a little role-play with ${e(name())} →</a></p>` : ""}
       <details class="movie-tools"><summary>Make a story video</summary><button id="makeMovie" ${movieBusy ? "disabled" : ""}>↓ Make a little video</button><p class="buddy-small">A 28-second montage with all four scenes and captions. Saved videos are silent; read-along voice plays here on the page.</p><div id="movie-output" role="status"></div></details>
     </section>`;
     loadReading();
@@ -813,5 +813,5 @@ window.BuddyStudio = (() => {
           "Video saving did not work this time. Your story is ready to watch above.";
     }
   }
-  return { mount, stop };
+  return { mount, stop, character: () => ({ name: name(), svg: drawing({ scene: "studio", thumbnail: true }) }) };
 })();

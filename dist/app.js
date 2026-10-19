@@ -44,6 +44,7 @@ const tabs = [
   ["studio", "⬡", "Maker Studio Workspace"],
   ["companion", "♡", "Buddy Studio"],
   ["roleplay", "✎", "Write & Role-play"],
+  ["together", "○", "Practice Together"],
   ["dashboard", "◫", "Observation Dashboard"],
   ["community", "♧", "Community exchange"],
   ["research", "⚑", "Research & rules"],
@@ -110,6 +111,7 @@ function heading(ey, title, desc, action = "") {
 function render() {
   window.BuddyStudio?.stop();
   window.RoleplayStudio?.stop();
+  window.TogetherStudio?.stop();
   document.body.classList.toggle("child-view", tab === "companion");
   document.body.classList.toggle("home-view", tab === "home");
   document.querySelectorAll("aside nav button").forEach((b) => {
@@ -118,7 +120,7 @@ function render() {
   });
   $("#breadcrumb").textContent = tabs.find((x) => x[0] === tab)[2];
   $("#viewContext").textContent = tab === "dashboard" ? "Simulated data only" : "Research & practice";
-  ({ home, dashboard, companion, roleplay, curriculum, studio, kits, community, research })[
+  ({ home, dashboard, companion, roleplay, together, curriculum, studio, kits, community, research })[
     tab
   ]();
 }
@@ -130,6 +132,7 @@ $("nav").innerHTML = tabs
   .join("");
 function home() { window.LabHome.mount(main); }
 function roleplay() { window.RoleplayStudio.mount(main); }
+function together() { window.TogetherStudio.mount(main); }
 function buddyFeature() {
   return `<section class="buddy-feature" aria-labelledby="buddyFeatureTitle">
     <div class="buddy-feature-art" aria-hidden="true">🧸</div>
@@ -332,6 +335,7 @@ function research() {
       "Research framing and transparent, editable prototype rules.",
     ) +
     window.LabHome.frameworkHTML() +
+    window.ResearchNotes.html() +
     `<div class="research-grid"><article class="card"><p class="eyebrow">01 · EVIDENCE-CENTERED DESIGN</p><h3>Stealth assessment</h3><p>Competency: self-regulation and flexible thinking. Evidence: iteration, help-seeking, and pauses. Task: open-ended circuit storytelling.</p></article><article class="card"><p class="eyebrow">02 · PLAYFUL TESTING</p><h3>A dashboard for dialogue</h3><p>The supplied Holbert research framing informs a process-focused dashboard. Teacher and learner co-design remains a future research activity.</p></article><article class="card"><p class="eyebrow">03 · MULTIMODAL ANALYTICS</p><h3>Context before conclusions</h3><p>Simulated pacing, gaze drift, and voice tone illustrate possible signals. No camera, microphone, or hardware input is collected.</p></article></div><section class="card"><h2>ECD rule builder</h2><p>Adjust the illustrative check-in hypothesis. These rules are not validated measures of SEL or internal emotional states.</p><form id="ruleForm"><label>Time without a state change (seconds)<br><input name="seconds" type="number" min="5" max="300" required value="${rules.seconds}"></label><label>Rapid tapping threshold (taps per minute)<br><input name="taps" type="number" min="3" max="120" required value="${rules.taps}"></label><p>When both thresholds are met and no task progress occurs, suggest a supportive check-in. Gaze and tone never trigger the rule.</p><button class="primary">Save rule</button> <button type="button" id="resetRules">Reset defaults</button></form><p id="ruleSummary"></p><details><summary>Inspect all prototype decision rules</summary><p>Priority 1: no progress + saved latency and tap thresholds → unproductive frustration hypothesis.<br>Priority 2: no progress + latency over 60s + fewer than 3 taps/min → boredom hypothesis.<br>Priority 3: latency over 22s or more than 5 taps/min → productive struggle hypothesis.<br>Otherwise → flow hypothesis.</p><p>Rules are illustrative and can misinterpret disability-related movement, communication differences, or a deliberate pause. Teacher observation and learner choice guide support.</p></details></section>`;
   $("#ruleForm").onsubmit = (e) => {
     e.preventDefault();
@@ -367,6 +371,7 @@ function applyPrefs() {
 }
 $("#settingsButton").onclick = () => {
   window.RoleplayStudio?.pause();
+  window.TogetherStudio?.pause();
   $("#settings").showModal();
 };
 ["profile", "fontScale", "large", "motion", "narrate", "speed"].forEach(
@@ -384,6 +389,8 @@ $("#settingsButton").onclick = () => {
   },
 );
 function navigate(id, focus = true) {
+  // Only fixed practice options go in the hash; learner writing never does.
+  id = id.split("?")[0];
   tab = tabs.some((item) => item[0] === id) ? id : "home";
   render();
   if (focus) {

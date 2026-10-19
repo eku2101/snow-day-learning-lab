@@ -19,9 +19,10 @@ The site's institutional framing is SNOW DAY Learning Lab · Department of Mathe
 | Maker Studio Workspace | A guided making workspace with lesson selection, activity progress, reflections, and an optional quiet break. |
 | Buddy Studio | Design a stuffed-animal character, color or print its picture, and explore nine original SEL stories with optional read-aloud. |
 | Write & Role-play | Writing supports for grades 4–12, sentence starters, optional ideas, and scripted practice conversations. |
+| Practice Together | Four branching SEL scenes, short or detailed wording, buddy or fictional learner roles, private writing, and partner guidance. |
 | Observation Dashboard | Simulated learner activity and illustrative support suggestions for educator discussion. |
 | Community Exchange | Demonstration educator posts and caregiver reflections saved on the current device. |
-| Research & Rules | Research framing and an editable evidence-centered design rule demonstration. |
+| Research & Rules | Comparison of eight SEL resources, linked role-play studies with evidence limits, adult/peer guidance, and an editable evidence-centered design rule demonstration. |
 | Toolkit Builder | A sample physical-kit builder with a cart and demo orders. No payments or shipments are created. |
 
 ## Start locally
@@ -112,6 +113,18 @@ External learning resources open provider websites. Their availability, captions
 
 The GitHub backup contains website source and version history. It does not include browser-local learner entries or role-play drafts. Clearing browser site data removes locally saved preferences and activities.
 
+## Practice Together
+
+[Open Practice Together](https://snow-day-learning-studio.eku2101.chatgpt.site/#together). Four original scenes explore sharing tools, asking for space, changed plans, and inclusion. Learners choose short or detailed wording, their custom buddy or fictional learners, a home/school/community setting, and a practice partner (solo, caregiver, family, friend, or teacher).
+
+Each scene offers three plausible strategies with possible outcomes and tradeoffs. Learners can compare plans, rehearse example speaker/listener lines, swap roles, write an optional line, reflect, and choose a small offline connection. All modes permit passing, quiet rehearsal, drawing, signing, and AAC. Guidance changes with the selected partner. Story endings and Maker Studio link to related scenes; learners can use Change activity to adjust the setup.
+
+Drafts stay in transient module memory and clear on finish, activity change, navigation, or reload. No recording, scoring, automatic sharing, or storage is added. Optional narration reads only fixed scene text with on-device voices and speech-event word highlighting. Sensory settings and a hidden tab pause narration. A missing local voice leaves the written experience available.
+
+The research view compares Greater Good in Education, Overcoming Obstacles, Sanford Harmony, Second Step, Everyday Speech, CASEL Program Guide, Quandary, and Breathe, Think, Do with Sesame using public official materials reviewed in October 2026. It distinguishes child apps from educator libraries and evidence guides. No paid-account usability testing was performed.
+
+The evidence cards link Goldstein & Lerner (2018; 97 preschoolers), Goldstein’s intervention-development paper (2018), Lewandowska & Węziak-Białowolska’s theatre meta-analysis (2023; 21 studies, 4,064 participants), and Lillard and colleagues’ cautionary review (2013). This prototype has not been evaluated for effectiveness. Design inferences and original scripts are labeled separately from study findings.
+
 ## Research framing and limits
 
 The design draws on constructionism, Universal Design for Learning, SEL, inclusive assistive technology, and families' funds of knowledge. The website links to resources from CASEL, CAST, MIT, Teachers College, and the Snow Day Learning Lab, alongside official standards references.
@@ -135,13 +148,16 @@ snow-day-learning-lab/
 │   ├── read-along.js      # Shared speech and highlighting controller
 │   ├── roleplay-data.js   # Topics, grade-band starters, and example responses
 │   ├── roleplay.js        # Writing workflow and optional local-voice narration
+│   ├── together-data.js   # Original scenarios, partner guidance, transient session model
+│   ├── together.js        # Choice, rehearsal, reflection, and local-voice narration
+│   ├── research-notes.js  # Resource comparison and evidence with limitations
 │   └── *.css              # Layouts, design tokens, themes, and accessibility styles
 ├── tests/                 # Node.js behavior and contrast checks
 ├── preview.cjs            # Local static preview server
 └── README.md
 ```
 
-Navigation uses URL hashes, including `#home`, `#curriculum`, `#studio`, `#companion`, and `#roleplay`. Modules are loaded with plain script tags; there is no framework or bundler.
+Navigation uses URL hashes, including `#home`, `#curriculum`, `#studio`, `#companion`, `#roleplay`, and `#together`. Fixed scenario options may follow `#together?scene=sharing&band=younger&cast=buddy`; user writing never enters URLs. Modules are loaded with plain script tags; there is no framework or bundler.
 
 ## Validation
 
@@ -152,6 +168,7 @@ node tests/matching.cjs
 node tests/stories.cjs
 node tests/read-along.cjs
 node tests/roleplay.cjs
+node tests/together.cjs
 node tests/palette.cjs
 ```
 
