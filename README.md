@@ -43,11 +43,11 @@ If you already have a checkout, run `node preview.cjs` from its root. The previe
 
 ## Visual design and reading
 
-The patchwork heart is the site's logo: teal, mint, and lavender patches with stitched seams, selected from the logo concept sheet. The transparent PNG in `dist/assets/patchwork-heart.png` appears in the sidebar, learner headers, footer, and browser icon. The website name remains accessible live text. A pale backing keeps the heart visible in dark mode.
+The patchwork heart is the site's logo: teal, mint, and lavender patches with stitched seams, selected from the logo concept sheet. The transparent PNG in `dist/assets/patchwork-heart.png` appears in the sidebar, learner headers, footer, browser icon, and the header of every printable PDF page. The website name remains accessible live text. A pale backing keeps the heart visible in dark mode. Activity templates retain black outlines and remain suitable for grayscale printing.
 
 The interface uses locally hosted **Atkinson Hyperlegible Next** (variable upright font, SIL Open Font License included in dist/fonts/OFL.txt) with system fallbacks. Adult body text starts at 18px; story text is approximately 22–24px before the learner’s chosen scaling. Georgia remains on the adult home hero.
 
-Teal, mint, off-white, and charcoal provide the shared palette. Lavender marks selected choices, with outlines and checkmarks; read-along uses pale gold with dark text and an underline in all three themes. Original SVG illustrations show making materials, fictional learners, and a family/community activity; the custom buddy remains personalized across scenes.
+The default palette uses forest green (`#17664E`), purple (`#6541C4`), and blue (`#245EAD`) with light tinted surfaces and slate text. Stronger color blocks distinguish printable projects, videos, navigation, and learner activities. Low Sensory Neutral mode replaces those blocks with gentle tinted surfaces; dark mode keeps readable light text. Selected choices retain outlines or checkmarks; read-along uses pale gold with dark text and an underline in all three themes. Original SVG illustrations show making materials, fictional learners, and a family/community activity; the custom buddy remains personalized across scenes.
 
 The shared learner navigation offers **Make a Buddy**, **Read a Story**, and **Practice Together**. Coloring remains a separate button inside Buddy Studio. Practice Together also has a simpler learner view with Comfort and a return to the adult tools. Both navigation layouts preserve the same activities and privacy behavior.
 
@@ -103,7 +103,7 @@ Open **Sensory settings** from the header. Changes apply immediately:
 
 The interface uses semantic page landmarks, labeled controls, visible focus styles, a skip link, and responsive layouts. Cards share a 12px corner radius. Primary buttons use slate teal with white text and lavender hover states.
 
-The palette test checks 69 foreground/background text pairs across all three themes against a 4.5:1 contrast threshold. This is a focused contrast check, not a full WCAG conformance audit. Animal artwork and user-selected paint colors have independent palettes.
+The palette test checks 129 foreground/background text pairs across all three themes against a 4.5:1 contrast threshold, including text on the new solid color blocks. This is a focused contrast check, not a full WCAG conformance audit. Animal artwork and user-selected paint colors have independent palettes.
 
 ## Data and privacy
 

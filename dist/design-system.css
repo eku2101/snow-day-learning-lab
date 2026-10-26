@@ -1,23 +1,31 @@
 /* Shared palette. Component CSS and SVG UI use these semantic tokens.
    Amber is decorative: neither white nor slate text reaches 4.5:1 on it. */
 :root {
-  --bg-primary: #F8F9FA;
+  --bg-primary: #F6F5FC;
   --bg-surface: #FFFFFF;
-  --text-primary: #2B303A;
-  --text-muted: #5A6578;
-  --brand-teal: #2C6E63;
-  --accent-lavender: #6C5CE7;
-  --soft-mint: #E8F1EE;
+  --text-primary: #263247;
+  --text-muted: #4F5D70;
+  --brand-teal: #17664E;
+  --accent-lavender: #6541C4;
+  --accent-blue: #245EAD;
+  --soft-mint: #DCF2E8;
   --brand-mark-surface: #E8F1EE;
   --soft-amber: #D97706;
-  --border-subtle: #E2E8F0;
+  --border-subtle: #C7CDE0;
 
   /* Supplemental roles avoid using decorative accent colors as body text. */
   --text-on-accent: #FFFFFF;
   --text-heading: var(--brand-teal);
-  --text-link: var(--brand-teal);
-  --surface-lavender: #F1EEFD;
+  --text-link: #214F93;
+  --text-purple: #513298;
+  --text-blue: #214F93;
+  --surface-lavender: #ECE4FF;
+  --surface-blue: #E0ECFF;
   --surface-nudge: #FFF4E5;
+  --feature-green: var(--brand-teal);
+  --feature-purple: var(--accent-lavender);
+  --feature-blue: var(--accent-blue);
+  --feature-ink: var(--text-on-accent);
   --focus-ring: var(--accent-lavender);
   --control-border: var(--text-muted);
   --shadow-color: #2B303A0D;
@@ -38,7 +46,10 @@
   --border-subtle: #607183;
   --text-heading: #A8DCCC;
   --text-link: #A8DCCC;
+  --text-purple: #D6C6FF;
+  --text-blue: #BCD8FF;
   --surface-lavender: #302A48;
+  --surface-blue: #20364E;
   --surface-nudge: #3C3023;
   --focus-ring: #CABEFF;
   --control-border: #A5B5C6;
@@ -49,10 +60,23 @@
 :root[data-theme="neutral"] {
   --bg-primary: #F3F2EE;
   --bg-surface: #FAF9F5;
+  --text-primary: #2B303A;
+  --text-muted: #5A6578;
+  --brand-teal: #2C6E63;
+  --accent-lavender: #6C5CE7;
+  --accent-blue: #365E8C;
+  --text-link: var(--brand-teal);
+  --text-purple: #514566;
+  --text-blue: #425772;
   --soft-mint: #E7ECE7;
   --border-subtle: #D5DAD5;
   --surface-lavender: #ECE9F1;
+  --surface-blue: #E7EBEF;
   --surface-nudge: #F0EADF;
+  --feature-green: var(--soft-mint);
+  --feature-purple: var(--surface-lavender);
+  --feature-blue: var(--surface-blue);
+  --feature-ink: var(--text-primary);
 }
 
 /* Shared component treatment applies equally to educator and child views. */

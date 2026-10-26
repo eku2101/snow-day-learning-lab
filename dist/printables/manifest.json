@@ -22,7 +22,7 @@
     ],
     "noCut": "Leave the cards on the page and point, draw, or direct a partner.",
     "description": "Four animal puppet cards, speech cards, and foldable paper handles.",
-    "bytes": 9450
+    "bytes": 839701
   },
   {
     "id": "foldable-story-scenes",
@@ -47,7 +47,7 @@
     ],
     "noCut": "Use the whole page flat as a story mat; draw or point to the story.",
     "description": "A three-panel standing story scene, character and place cards, and a story planner.",
-    "bytes": 9263
+    "bytes": 839512
   },
   {
     "id": "habitat-cutouts",
@@ -72,6 +72,6 @@
     ],
     "noCut": "An adult prepares the cards, or the child points while a partner records choices.",
     "description": "Pond and woodland mats, six animal cards, and a tally and picture-chart sheet.",
-    "bytes": 11105
+    "bytes": 841352
   }
 ]

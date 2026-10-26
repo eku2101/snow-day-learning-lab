@@ -2,7 +2,7 @@
 
 Requires reportlab and pypdf. Add --poppler /path/to/pdftoppm to render all
 pages into a temporary QA folder and create the three public preview PNGs.
-All artwork is vector drawing code; no external images or fonts are needed.
+Activity artwork is vector drawing code; headers use the shared local heart logo.
 """
 from pathlib import Path
 import argparse
@@ -12,6 +12,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 from reportlab.lib.colors import black, white
+from reportlab.lib.utils import ImageReader
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +20,7 @@ OUT = ROOT / 'dist' / 'printables'
 OUT.mkdir(parents=True, exist_ok=True)
 W, H = 612, 792
 M = 42
+LOGO = ImageReader(str(ROOT / 'dist' / 'assets' / 'patchwork-heart.png'))
 
 def line(c, x1, y1, x2, y2, width=1):
     c.setLineWidth(width); c.line(x1,y1,x2,y2)
@@ -40,6 +42,8 @@ def para(c, txt, x, top, width=528, size=12, leading=16, bold=False):
 def start(c, title, subtitle, page, total=4):
     c.setStrokeColor(black); c.setFillColor(white); c.setLineWidth(1)
     text(c, 'EVERYDAY FEELINGS, SHARED STORIES', M, 754, 9, True)
+    # Reuse one transparent image per document, above the activity content.
+    c.drawImage(LOGO, W-M-44, 730, width=44, height=44, mask='auto')
     text(c, title, M, 718, 24, True)
     para(c, subtitle, M, 698, size=11, leading=14)
     text(c, 'SNOW DAY Learning Lab  |  Original printable for home and classroom use', M, 27, 8)

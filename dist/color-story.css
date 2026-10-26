@@ -1,0 +1,51 @@
+/* Richer purple, blue, and green guide attention without adding motion.
+   Feature tokens soften these color blocks in Low Sensory Neutral mode. */
+aside { background: var(--surface-lavender); }
+aside .workspace { background: var(--surface-blue); border-inline-start: 3px solid var(--accent-blue); }
+.nav-group-label { color: var(--text-purple); font-weight: 700; }
+aside nav button.active { background: var(--feature-purple); color: var(--feature-ink); border-inline-start-color: var(--accent-lavender); }
+aside nav button.active:hover { background: var(--feature-purple); color: var(--feature-ink); }
+main h1, .resource-hero h1, body:not(.child-view) .lab-hero h1 { color: var(--text-purple); }
+.resource-hero { border-top: 5px solid var(--accent-lavender); padding-top: 1.75rem; }
+.resource-hero-note { background: var(--feature-blue); color: var(--feature-ink); border-color: var(--feature-blue); }
+.resource-hero-note svg { color: var(--feature-ink); }
+.resource-hero-note p { color: var(--feature-ink); }
+.resource-switch a[aria-current] { background: var(--feature-purple); color: var(--feature-ink); border-color: var(--accent-lavender); }
+.resource-guide { background: var(--soft-mint); border-radius: var(--radius-card); border-color: var(--brand-teal); padding: 1.2rem; }
+.resource-step { color: var(--text-purple); font-weight: 700; }
+.print-cover { background: var(--feature-green); }
+.print-card:nth-child(2) .print-cover { background: var(--feature-purple); }
+.print-card:nth-child(3) .print-cover { background: var(--feature-blue); }
+.paper-label { color: var(--feature-ink); font-weight: 700; }
+.resource-tags span:nth-child(2) { background: var(--surface-lavender); }
+.resource-tags span:nth-child(3) { background: var(--surface-blue); }
+.resource-card .eyebrow { color: var(--text-blue); }
+.resource-filters { border-top: 5px solid var(--accent-blue); }
+.video-cover, .video-cover[data-kind="calm"] { background: var(--feature-green); color: var(--feature-ink); }
+.video-cover[data-kind="move"], .video-cover[data-kind="connect"] { background: var(--feature-purple); }
+.video-cover[data-kind="feelings"], .video-cover[data-kind="adults"] { background: var(--feature-blue); }
+.video-cover svg { color: var(--feature-ink); }
+.video-duration { color: var(--text-primary); }
+.resource-video-open { color: var(--text-blue); border-color: var(--accent-blue); background: var(--surface-blue); font-weight: 700; }
+.resource-video-open:hover { background: var(--feature-blue); color: var(--feature-ink); }
+.resource-entry-card { background: var(--feature-green); color: var(--feature-ink); border-color: var(--feature-green); }
+.resource-entry-card:last-child { background: var(--feature-blue); border-color: var(--feature-blue); }
+.resource-entry-card h3, .resource-entry-card p, .resource-entry-card span, .resource-entry-card svg { color: var(--feature-ink); }
+.resource-entry-card:hover { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+.learner-path a { border-top: 5px solid var(--brand-teal); background: var(--soft-mint); }
+.learner-path a:nth-child(2) { border-top-color: var(--accent-blue); background: var(--surface-blue); }
+.learner-path a:nth-child(3) { border-top-color: var(--accent-lavender); background: var(--surface-lavender); }
+.learner-path a[aria-current] { background: var(--feature-purple); border: 2px solid var(--accent-lavender); border-top-width: 5px; color: var(--feature-ink); }
+.learner-path a[aria-current] svg { color: var(--feature-ink); }
+.lab-hero-art { border: 2px solid var(--brand-teal); }
+.lab-hero-art figcaption { background: var(--soft-mint); }
+.framework-tags a { background: var(--surface-lavender); border-color: var(--accent-lavender); color: var(--text-purple); }
+.framework-tags a:nth-child(even) { background: var(--surface-blue); border-color: var(--accent-blue); color: var(--text-blue); }
+.lesson-card, body:not(.child-view) .lesson-card { border-top: 5px solid var(--brand-teal); }
+.cards .lesson-card:nth-child(2) { border-top-color: var(--accent-lavender); }
+.cards .lesson-card:nth-child(3) { border-top-color: var(--accent-blue); }
+.matcher-panel, .tp-panel, .rp-panel { border-top: 5px solid var(--accent-lavender); }
+.buddy-panel { border-top: 5px solid var(--accent-blue); }
+.tp-guide, .resource-bottom-note { border-top: 5px solid var(--brand-teal); }
+.resource-followup, .rp-privacy { border-inline-start: 4px solid var(--accent-lavender); }
+.shell > footer { background: var(--surface-blue); border-top: 3px solid var(--accent-blue); }

@@ -1,0 +1,4 @@
+# Preserve generated asset bytes on Windows and in deployment checkouts.
+*.pdf binary
+*.png binary
+*.ttf binary

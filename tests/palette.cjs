@@ -23,7 +23,7 @@ function contrast(a, b) {
   return (bright + .05) / (dark + .05);
 }
 const base = declarations(':root');
-const requested = { '--bg-primary':'#F8F9FA', '--bg-surface':'#FFFFFF', '--text-primary':'#2B303A', '--text-muted':'#5A6578', '--brand-teal':'#2C6E63', '--accent-lavender':'#6C5CE7', '--soft-mint':'#E8F1EE', '--soft-amber':'#D97706', '--border-subtle':'#E2E8F0' };
+const requested = { '--bg-primary':'#F6F5FC', '--bg-surface':'#FFFFFF', '--text-primary':'#263247', '--text-muted':'#4F5D70', '--brand-teal':'#17664E', '--accent-lavender':'#6541C4', '--accent-blue':'#245EAD', '--soft-mint':'#DCF2E8', '--soft-amber':'#D97706', '--border-subtle':'#C7CDE0' };
 for (const [key, value] of Object.entries(requested)) assert.equal(base[key], value);
 let count = 0, min = Infinity;
 for (const mode of ['light', 'dark', 'neutral']) {
@@ -33,10 +33,12 @@ for (const mode of ['light', 'dark', 'neutral']) {
     assert.ok(ratio >= 4.5, `${mode}: ${fg} on ${bg} is ${ratio.toFixed(3)}:1`);
     count++; min = Math.min(min, ratio);
   }
-  for (const fg of ['--text-primary', '--text-muted', '--text-heading', '--text-link'])
-    for (const bg of ['--bg-primary', '--bg-surface', '--soft-mint', '--surface-lavender', '--surface-nudge']) check(fg, bg);
+  for (const fg of ['--text-primary', '--text-muted', '--text-heading', '--text-link', '--text-purple', '--text-blue'])
+    for (const bg of ['--bg-primary', '--bg-surface', '--soft-mint', '--surface-lavender', '--surface-blue', '--surface-nudge']) check(fg, bg);
   check('--text-on-accent', '--brand-teal');
   check('--text-on-accent', '--accent-lavender');
+  check('--text-on-accent', '--accent-blue');
+  for (const bg of ['--feature-green', '--feature-purple', '--feature-blue']) check('--feature-ink', bg);
   check('--reading-ink', '--reading-highlight');
 }
 for (const name of fs.readdirSync('dist').filter(n => n.endsWith('.css') && n !== 'design-system.css')) {
