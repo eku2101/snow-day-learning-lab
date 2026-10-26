@@ -43,6 +43,8 @@ If you already have a checkout, run `node preview.cjs` from its root. The previe
 
 ## Visual design and reading
 
+The patchwork heart is the site's logo: teal, mint, and lavender patches with stitched seams, selected from the logo concept sheet. The transparent PNG in `dist/assets/patchwork-heart.png` appears in the sidebar, learner headers, footer, and browser icon. The website name remains accessible live text. A pale backing keeps the heart visible in dark mode.
+
 The interface uses locally hosted **Atkinson Hyperlegible Next** (variable upright font, SIL Open Font License included in dist/fonts/OFL.txt) with system fallbacks. Adult body text starts at 18px; story text is approximately 22–24px before the learner’s chosen scaling. Georgia remains on the adult home hero.
 
 Teal, mint, off-white, and charcoal provide the shared palette. Lavender marks selected choices, with outlines and checkmarks; read-along uses pale gold with dark text and an underline in all three themes. Original SVG illustrations show making materials, fictional learners, and a family/community activity; the custom buddy remains personalized across scenes.

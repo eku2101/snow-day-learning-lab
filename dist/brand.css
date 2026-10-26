@@ -1,0 +1,23 @@
+/* One shared image keeps the chosen patchwork heart consistent across views.
+   The live wordmark supplies the accessible name, so its adjacent image is decorative. */
+.brand-mark { display: block; width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; }
+aside .brand { display: flex; flex-direction: column; align-items: flex-start; gap: .6rem; }
+.brand-copy { display: block; min-width: 0; }
+aside .brand-title { font-weight: 800; }
+aside .brand small { display: block; margin: .45rem 0 0; line-height: 1.4; }
+.buddy-wordmark { display: inline-flex; align-items: center; gap: .8rem; max-width: 100%; }
+.buddy-wordmark .brand-mark { width: 64px; height: 64px; }
+.buddy-wordmark .brand-copy { overflow-wrap: anywhere; }
+.footer-brand { display: flex; align-items: flex-start; gap: .8rem; }
+.footer-brand .brand-mark { width: 48px; height: 48px; }
+/* A pale backing preserves the teal outline in the high contrast theme. */
+:root[data-theme="dark"] .brand-mark { background: var(--brand-mark-surface); border-radius: 14px; }
+@media (max-width: 700px) {
+  aside .brand { flex-direction: row; align-items: center; gap: .7rem; }
+  aside .brand .brand-mark { width: 64px; height: 64px; }
+  aside .brand-title { font-size: 1.05rem; }
+  aside .brand small { font-size: .8rem; }
+  .buddy-wordmark .brand-mark { width: 56px; height: 56px; }
+  .buddy-wordmark { gap: .65rem; font-size: 1.05rem; }
+  .buddy-wordmark small { font-size: .8rem; }
+}

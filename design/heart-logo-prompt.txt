@@ -1,0 +1,8 @@
+Patchwork heart logo
+Selected concept: 01 Patchwork Heart, chosen by the website owner.
+Method: built-in image generation, editing the previously generated comparison sheet.
+Website asset: dist/assets/patchwork-heart.png
+Background: transparent. Wordmark is rendered as accessible HTML text.
+
+Final image-generation prompt:
+Use case: logo-brand / background-extraction. The reference is a 4-option logo concept sheet. Extract and faithfully reproduce ONLY the PATCHWORK HEART SYMBOL from the TOP LEFT option (01 Patchwork Heart) as a clean standalone website logo asset on a genuinely transparent background. Preserve its exact rounded asymmetric heart silhouette, thick deep teal outline, three curved patches (dark slate teal on the left, pale mint upper right, lavender lower right), and the sparse white curved dashed stitches near the seams. Keep the selected design closely recognizable. Flat clean vector-like edges, solid color fills, no added gradient, no texture, no shadows. One isolated heart centered with only a small even transparent margin around it, approximately 90% of the canvas width and height. NO lettering, no concept label, no other logo choices, no wordmark, no backdrop. The surrounding website will supply accessible live text separately.
