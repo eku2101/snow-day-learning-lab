@@ -1,5 +1,6 @@
 const http = require("node:http"), fs = require("node:fs"), path = require("node:path");
 const root = path.resolve(__dirname, "dist");
+const port = Number(process.env.PORT) || 4173;
 // Serve nested fonts as well as scripts; requests stay inside the public directory.
 http.createServer((req, res) => {
   let pathname;
@@ -8,8 +9,8 @@ http.createServer((req, res) => {
   const filename = path.resolve(root, pathname === "/" ? "index.html" : "." + pathname);
   if (!filename.startsWith(root + path.sep)) { res.writeHead(403); res.end("Forbidden"); return; }
   fs.readFile(filename, (err, data) => {
-    const types = { ".js": "application/javascript", ".css": "text/css", ".ttf": "font/ttf", ".txt": "text/plain", ".svg": "image/svg+xml" };
+    const types = { ".js": "application/javascript", ".css": "text/css", ".ttf": "font/ttf", ".txt": "text/plain", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".png": "image/png", ".json": "application/json" };
     res.writeHead(err ? 404 : 200, { "Content-Type": types[path.extname(filename)] || "text/html" });
     res.end(err ? "Not found" : data);
   });
-}).listen(4173, "127.0.0.1", () => console.log("Local: http://127.0.0.1:4173"));
+}).listen(port, "127.0.0.1", () => console.log(`Local: http://127.0.0.1:${port}`));

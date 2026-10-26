@@ -282,8 +282,10 @@ function openLesson(id) {
     <section><h3>Extend the exploration</h3><p>${plan.extension}</p></section>
     <section><h3>Bring it home</h3><p>${plan.home}</p></section>
     <section><h3>Safe making</h3><p>${plan.safety}</p></section>
+    <section class="lesson-resource-links"><h3>Keep exploring</h3><p>Bring the lesson to paper, or find a video to explore together.</p><a data-resource-link href="#printmake">${id === "habitats" || id === "shields" ? "Explore habitat cutouts" : "Explore buddy puppets & story scenes"} →</a><a data-resource-link href="#watch?kind=${id === "sensory" ? "connect" : "feelings"}">Find a related video →</a></section>
     <button class="primary" id="useLesson">Use in Maker Studio →</button></article>`;
   document.body.append(dialog);
+  dialog.querySelectorAll("[data-resource-link]").forEach(link => link.onclick = () => dialog.close());
   dialog.querySelector("#useLesson").onclick = () => {
     save("snow-active-lesson", id);
     dialog.close();

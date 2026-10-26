@@ -16,6 +16,8 @@ The site's institutional framing is SNOW DAY Learning Lab · Department of Mathe
 | --- | --- |
 | Home | An accessible introduction to SEL and a five-question classroom or household planning guide that matches lessons, making activities, and external video resources. |
 | Lesson Plans | Three structured early STEM and SEL lessons with materials, standards, activity steps, sensory supports, and home adaptations. |
+| Print & Make | Three original four-page PDF kits: buddy puppets, foldable story scenes, and habitat cutouts, with no-cut options and linked lessons. |
+| Watch & Learn | Nine credited creator videos, filtered by age, purpose, duration, or topic, with voluntary playback and offscreen invitations. |
 | Maker Studio Workspace | A guided making workspace with lesson selection, activity progress, reflections, and an optional quiet break. |
 | Buddy Studio | Design a stuffed-animal character, color or print its picture, and explore nine original SEL stories with optional read-aloud. |
 | Write & Role-play | Writing supports for grades 4–12, sentence starters, optional ideas, and scripted practice conversations. |
@@ -117,7 +119,11 @@ The application has no shared application database. Browser-local storage is spe
 
 No camera, microphone, or physical sensor input is collected. Dashboard telemetry is simulated. Role-play narration requires an on-device voice; Buddy narration prefers a local English voice but may use another browser-provided voice. Browser or operating-system speech services determine how those other voices work.
 
-External learning resources open provider websites. Their availability, captions, and privacy practices are controlled by those providers. Recommended videos are linked rather than embedded or played automatically.
+External learning resources open provider websites. Their availability, captions, and privacy practices are controlled by those providers. Watch & Learn initially shows local cards only. Selecting **Load YouTube player** connects to a `youtube-nocookie.com` embed; playback still requires the player's Play control. Closing the dialog, hiding the page, or navigating away removes the player. YouTube may show ads or recommendations. Each video also links to its official creator resource and YouTube page.
+
+Video selection used official creator descriptions, metadata, and available transcripts, not full audiovisual review. Exact durations are shown only when verified; unknown durations are excluded from duration filters. Preview captions, sound, movement, and age fit together. Movement breaks are distinguished from SEL instruction.
+
+The printable PDFs and PNG previews live in `dist/printables/`; `manifest.json` records page counts and materials. `scripts/build_printables.py` creates the original templates with ReportLab. They are free to print for home and classroom use. Print US Letter at actual size, or fit to A4. Cutting, folding, and storytelling are practice opportunities, not validated developmental assessments.
 
 The GitHub backup contains website source and version history. It does not include browser-local learner entries or role-play drafts. Clearing browser site data removes locally saved preferences and activities.
 
@@ -182,6 +188,7 @@ node tests/roleplay.cjs
 node tests/together.cjs
 node tests/palette.cjs
 node tests/design.cjs
+node tests/resources.cjs
 ```
 
 These cover planning-guide matching, story rendering contracts, speech cancellation and highlighting, local-only voice handling, role-play writing scaffolds, and theme contrast. Check an individual JavaScript file's syntax with `node --check dist/app.js` or the relevant file path.

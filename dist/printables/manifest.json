@@ -1,0 +1,77 @@
+[
+  {
+    "id": "buddy-puppets",
+    "title": "Buddy puppets",
+    "pdf": "printables/buddy-puppets.pdf",
+    "preview": "printables/buddy-puppets-preview.png",
+    "pages": 4,
+    "previewPage": 2,
+    "grade": "PreK-Grade 3 with support",
+    "minutes": "15-25",
+    "materials": [
+      "Paper or light card",
+      "Crayons",
+      "Child-sized scissors",
+      "Tape or glue"
+    ],
+    "skills": [
+      "Broad curves",
+      "Coloring",
+      "Folding",
+      "Story dialogue"
+    ],
+    "noCut": "Leave the cards on the page and point, draw, or direct a partner.",
+    "description": "Four animal puppet cards, speech cards, and foldable paper handles.",
+    "bytes": 9450
+  },
+  {
+    "id": "foldable-story-scenes",
+    "title": "Foldable story scenes",
+    "pdf": "printables/foldable-story-scenes.pdf",
+    "preview": "printables/foldable-story-scenes-preview.png",
+    "pages": 4,
+    "previewPage": 2,
+    "grade": "Kindergarten-Grade 5 with support",
+    "minutes": "20-30",
+    "materials": [
+      "Paper or light card",
+      "Crayons",
+      "Scissors",
+      "Removable tape or glue"
+    ],
+    "skills": [
+      "Straight cuts",
+      "Creasing",
+      "Sequencing",
+      "Different endings"
+    ],
+    "noCut": "Use the whole page flat as a story mat; draw or point to the story.",
+    "description": "A three-panel standing story scene, character and place cards, and a story planner.",
+    "bytes": 9263
+  },
+  {
+    "id": "habitat-cutouts",
+    "title": "Habitat cutouts",
+    "pdf": "printables/habitat-cutouts.pdf",
+    "preview": "printables/habitat-cutouts-preview.png",
+    "pages": 4,
+    "previewPage": 3,
+    "grade": "Kindergarten-Grade 2 with support",
+    "minutes": "20-30",
+    "materials": [
+      "Printed pages",
+      "Crayons",
+      "Scissors",
+      "Pencil"
+    ],
+    "skills": [
+      "Straight cuts",
+      "Placing pieces",
+      "Sorting",
+      "Tallying"
+    ],
+    "noCut": "An adult prepares the cards, or the child points while a partner records choices.",
+    "description": "Pond and woodland mats, six animal cards, and a tally and picture-chart sheet.",
+    "bytes": 11105
+  }
+]

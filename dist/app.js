@@ -41,6 +41,8 @@ let tab = "home",
 const tabs = [
   ["home", "⌂", "Home"],
   ["curriculum", "▤", "Lesson Plans"],
+  ["printmake", "✂", "Print & Make"],
+  ["watch", "▷", "Watch & Learn"],
   ["studio", "⬡", "Maker Studio Workspace"],
   ["companion", "♡", "Buddy Studio"],
   ["roleplay", "✎", "Write & Role-play"],
@@ -112,6 +114,7 @@ function render() {
   window.BuddyStudio?.stop();
   window.RoleplayStudio?.stop();
   window.TogetherStudio?.stop();
+  window.ResourceLibrary?.stop();
   const learnerMode = tab === "companion" || (tab === "together" && new URLSearchParams(location.hash.split("?")[1] || "").get("mode") === "learner");
   document.body.classList.toggle("child-view", learnerMode);
   document.body.classList.toggle("home-view", tab === "home");
@@ -121,17 +124,22 @@ function render() {
   });
   $("#breadcrumb").textContent = tabs.find((x) => x[0] === tab)[2];
   $("#viewContext").textContent = tab === "dashboard" ? "Simulated data only" : "Research & practice";
-  ({ home, dashboard, companion, roleplay, together, curriculum, studio, kits, community, research })[
+  ({ home, dashboard, companion, roleplay, together, curriculum, printmake, watch, studio, kits, community, research })[
     tab
   ]();
 }
-$("nav").innerHTML = tabs
-  .map(
-    ([id, icon, name]) =>
-      `<button data-tab="${id}"><span>${icon}</span>${name}</button>`,
-  )
-  .join("");
+const navGroups = [
+  ["Explore", ["home", "curriculum", "printmake", "watch", "studio"]],
+  ["Make & connect", ["companion", "roleplay", "together", "community"]],
+  ["For educators", ["dashboard", "research", "kits"]],
+];
+$("#mainNav").innerHTML = navGroups.map(([label, ids]) => `<div class="nav-group"><span class="nav-group-label">${label}</span>${ids.map(id => {
+  const [, icon, name] = tabs.find(item => item[0] === id);
+  return `<button type="button" data-tab="${id}"><span aria-hidden="true">${icon}</span>${name}</button>`;
+}).join("")}</div>`).join("");
 function home() { window.LabHome.mount(main); }
+function printmake() { window.ResourceLibrary.print(main); }
+function watch() { window.ResourceLibrary.watch(main); }
 function roleplay() { window.RoleplayStudio.mount(main); }
 function together() { window.TogetherStudio.mount(main); }
 function buddyFeature() {
@@ -373,6 +381,7 @@ function applyPrefs() {
 $("#settingsButton").onclick = () => {
   window.RoleplayStudio?.pause();
   window.TogetherStudio?.pause();
+  window.ResourceLibrary?.closeVideo();
   $("#settings").showModal();
 };
 ["profile", "fontScale", "large", "motion", "narrate", "speed"].forEach(
@@ -393,6 +402,8 @@ function navigate(id, focus = true) {
   // Only fixed practice options go in the hash; learner writing never does.
   id = id.split("?")[0];
   tab = tabs.some((item) => item[0] === id) ? id : "home";
+  $("#mainNav").classList.remove("nav-open");
+  $("#navToggle").setAttribute("aria-expanded", "false");
   render();
   if (focus) {
     main.focus({ preventScroll: true });
@@ -403,7 +414,11 @@ function navigate(id, focus = true) {
     });
   }
 }
-$("nav").onclick = (event) => {
+$("#navToggle").onclick = () => {
+  const expanded = $("#mainNav").classList.toggle("nav-open");
+  $("#navToggle").setAttribute("aria-expanded", String(expanded));
+};
+$("#mainNav").onclick = (event) => {
   const button = event.target.closest("[data-tab]");
   if (button) location.hash = button.dataset.tab;
 };

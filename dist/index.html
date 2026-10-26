@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="together.css" />
     <link rel="stylesheet" href="design-system.css" />
     <link rel="stylesheet" href="storybook.css" />
+    <link rel="stylesheet" href="resources.css" />
     <link rel="preload" href="fonts/AtkinsonHyperlegibleNext.ttf" as="font" type="font/ttf" crossorigin />
   </head>
   <body>
@@ -24,7 +25,8 @@
       <div class="workspace">
         Learning through making <small>Research & practice prototype</small>
       </div>
-      <nav aria-label="Main navigation"></nav>
+      <button id="navToggle" type="button" aria-expanded="false" aria-controls="mainNav">Explore the site <span aria-hidden="true">☰</span></button>
+      <nav id="mainNav" aria-label="Main navigation"></nav>
       <div class="aside-bottom">
         Teachers College<br>Columbia University
         <p>Observe with care.<br>Support with curiosity.</p>
@@ -95,6 +97,8 @@
     <script src="together-data.js"></script>
     <script src="together.js"></script>
     <script src="research-notes.js"></script>
+    <script src="watch-videos.js"></script>
+    <script src="resource-library.js"></script>
     <script src="lab-home.js"></script>
     <script src="app.js"></script>
   </body>
